@@ -1,26 +1,34 @@
+/* Typography */
 h1, h2 {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-around;
-    align-content: center;
-    align-items: center;
-    }
+    text-align: center;
+}
 
+/* General */
 body {
     text-align: center;
     width: 800px;
     margin: 0 auto;
+
+}
+
+/* Block styling */
+div {
+    border: 5px solid black;
+    display: flex;
+}
+
+/* Form styling */
+main {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
     background-image: url('https://dport96.github.io/ITM352/morea/030.ui-basics/phone_globe.jpg');
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
 }
 
-div {
-    border: 5px solid black;
-    display: flex;
-}
-
+/* Styling the products display */
 img {
     width: 200px;
     height: 200px;
