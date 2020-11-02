@@ -1,45 +1,33 @@
 <script>
     /* Sales receipt */
-
-    // Product data
-
+    
      // Product 1
      var item1 = 'Gillette Sensor 3 Razor';
      var quantity1 = 2;
      var price1 = 1.23;
-     var extended_price1 = quantity1*price1;
-     var subtotal1 = extended_price1;
 
      // Product 2
      var item2 = 'Barbasol Shaving Cream';
      var quantity2 = 1;
      var price2 = 2.64;
-     var extended_price2 = quantity2*price2;
-     var subtotal2 = extended_price2 + subtotal1;
 
      // Product 3
      var item3 = 'Nautica Cologne';
      var quantity3 = 1;
      var price3 = 6.17;
-     var extended_price3 = quantity3*price3;
-     var subtotal3 = extended_price3 + subtotal2;
 
      // Product 4
      var item4 = 'Rubbing Alcohol';
      var quantity4 = 2;
      var price4 = 0.98;
-     var extended_price4 = quantity4*price4;
-     var subtotal4 = extended_price4 + subtotal3;
 
      // Product 5
      var item5 = 'Colgate Classic Toothbrush';
      var quantity5 = 12;
      var price5 = 1.89;
-     var extended_price5 = quantity5*price5;
-     var subtotal5 = extended_price5 + subtotal4;
 
      // Compute subtotal
-     var subtotal = extended_price1 + extended_price2 + extended_price3 + extended_price4 + extended_price5;
+     var subtotal = 0
 
      // Compute tax
      var tax_rate = 0.0575;
@@ -77,53 +65,63 @@
             <th style="text-align: center;" width="54%">extended price</th>
           </tr>
           <script>
-              // product row 1
-              document.write(`
+            // product row 1
+            var extended_price = quantity1*price1;
+            var subtotal = extended_price + subtotal;
+          document.write(`
           <tr>
             <td width="43%">${item1}</td>
             <td align="center" width="11%">${quantity1}</td>
             <td width="13%">\$${price1}</td>
-            <td width="54%">\$${subtotal1}</td>
+            <td width="54%">\$${extended_price.toFixed(2)}</td>
           </tr>
           `);
 
           // product row 2
+          var extended_price = quantity2*price2;
+          var subtotal = extended_price + subtotal;
           document.write(`
           <tr>
             <td width="43%">${item2}</td>
             <td align="center" width="11%">${quantity2}</td>
             <td width="13%">\$${price2}</td>
-            <td width="54%">\$${subtotal2}</td>
+            <td width="54%">\$${extended_price.toFixed(2)}</td>
           </tr>
           `);
 
           // product row 3
+          var extended_price = quantity3*price3;
+          var subtotal = extended_price + subtotal;
           document.write(`
           <tr>
             <td width="43%">${item3}</td>
             <td align="center" width="11%">${quantity3}</td>
             <td width="13%">\$${price3}</td>
-            <td width="54%">\$${subtotal3}</td>
+            <td width="54%">\$${extended_price.toFixed(2)}</td>
           </tr>
           `);
 
           // product row 4
+          var extended_price = quantity4*price4;
+          var subtotal = extended_price + subtotal;
           document.write(`
           <tr>
             <td width="43%">${item4}</td>
             <td align="center" width="11%">${quantity4}</td>
             <td width="13%">\$${price4}</td>
-            <td width="54%">\$${subtotal4}</td>
+            <td width="54%">\$${extended_price.toFixed(2)}</td>
           </tr>
           `);
 
           // product row 5
+          var extended_price = quantity5*price5;
+          var subtotal = extended_price + subtotal;
           document.write(`
           <tr>
             <td width="43%">${item5}</td>
             <td align="center" width="11%">${quantity5}</td>
             <td width="13%">\$${price5}</td>
-            <td width="54%">\$${subtotal5}</td>
+            <td width="54%">\$${extended_price.toFixed(2)}</td>
           </tr>
           `);
 
