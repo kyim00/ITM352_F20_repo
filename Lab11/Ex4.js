@@ -17,7 +17,7 @@ function callback(i, part) {
     console.log(`${i} is non neg int 
     ${isNonNegIntString(part, true).join("***")}`);
 }
-pieces.forEach(function(item,i;
+pieces.forEach(function(item,i,)
     {console.log((typeof item == 'string' && item. length > 0)?true:false)});
 
 
@@ -29,6 +29,6 @@ function callback(i, part) {
     console.log(`${part} is non neg int 
     ${isNonNegIntString(part, true).join("***")}`);
 }
-pieces.forEach(function(item,i;
+pieces.forEach(function(item,i)
     console.log(`${part} is non neg int 
     ${isNonNegIntString(pieces[i], true).join("***")}`);

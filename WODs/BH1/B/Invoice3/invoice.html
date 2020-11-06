@@ -3,28 +3,26 @@
 
 function generate_item_rows(product_quantities_array) { // prints out row of product items w quantities product_quantities_array
     for(i=0; i<product_quantities_array.length; i++) {
-      qty = product_quantities_array[i]
-      errs = isNonNegInt(qty,true);
+      errors = isNonNegInt(product_quantities_array[i],true);
       }
-      if(qty == 0){
+      if(product_quantities_array[i] == 0){
         continue;
       }
-      if(errs.length == 0) {
-          var extended_price = qty*products[i].price;
-          var subtotal = extended_price + subtotal;
-     " } else {
-        qty = `<span style="color: red">${qty}<br>${errs.join("<br>")}</span>`
-     }
+      if(errors.length == 0) {
+          extended_price = product_quantities_array[i]*products[i].price;
+          subtotal += extended_price;
+       } else {
+        product_quantities_array[i] = `<span style="color: red">${product_quantities_array[i]}<br>${errors.join("<br>")}</span>`
+          }
           document.write(`
           <tr>
             <td width="43%">${products[i].brand}</td>
-            <td align="center" width="11%">${qty}</td>
+            <td align="center" width="11%">${product_quantities_array[i]}</td>
             <td width="13%">\$${products[i].price}</td>
             <td width="54%">\$${extended_price.toFixed(2)}</td>
           </tr>
           `);
     }
-}
 
 function isNonNegInt(val, returnErrors=false) {
 
@@ -39,27 +37,27 @@ return returnErrors ? errors : (errors.length > 0)?false:true;
     var products = [
       {
         "brand": "HTC",
-        "price": 40,      
+        "price": 40.00,      
         "image": "http://dport96.github.io/ITM352/morea/080.flow-control-II/HTC.jpg",
     },
       {
         "brand": "Apple",
-        "price": 75,
+        "price": 75.00,
         "image": "http://dport96.github.io/ITM352/morea/080.flow-control-II/iphone-3gs.jpg",
       },
       {
         "brand": "Nokia",
-        "price": 35,
+        "price": 35.00,
         "image": "http://dport96.github.io/ITM352/morea/080.flow-control-II/Nokia.jpg",
       },
       {
         "brand": "Samsung",
-        "price": 45,
+        "price": 45.00,
         "image": "http://dport96.github.io/ITM352/morea/080.flow-control-II/Samsung.jpg",
       },
       {
         "brand": "Blackberry",
-        "price": 10,
+        "price": 10.00,
         "image": "http://dport96.github.io/ITM352/morea/080.flow-control-II/Blackberry.jpg",
       }
     ];

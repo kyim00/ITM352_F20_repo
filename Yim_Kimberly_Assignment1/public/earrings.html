@@ -1,0 +1,45 @@
+<!---Kimberly Yim's Assignment 1: earrings webpage-->
+<!---Used assignment 1 examples & invoice4 WOD as reference-->
+
+<script src = "./products.js"></script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="products-style.css"
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earrings</title>
+</head>
+<body>
+    <div id="navbar">
+        <ul>
+            <li><input type="button" value="Homepage" onclick="window.location.href = 'index.html'"></li>
+            <li><input type="button" value="Earrings" onclick="window.location.href = 'earrings.html'"></li>
+        </ul>
+    </div>
+    <img src="images/header.jpg">
+    <header><h1>F'20 Earrings Collection</h1></header>
+    <form action="./process_form" method="POST">
+    <div>
+        <main>
+    <script>
+        for(i = 0; i <= products.length; i++) {
+        document.write(`
+        <section class="item">
+        <h2>${products[i].name}</h2>
+        <p>$${products[i].price}</p>
+        <label>Quantity</label>
+        <input type="text" placeholder="0" name="quantity${i}" onkeyup="checkQuantityTextbox(this);">
+        <img src="${products[i].image}">
+        </section>
+        `);
+        }
+    </script>
+</main>
+</div>
+   <input type="submit" value="Purchase"> 
+</form>
+<footer>Jewels By Kim</footer>
+</body>
+</html>

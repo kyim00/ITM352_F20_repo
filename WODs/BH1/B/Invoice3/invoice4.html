@@ -1,0 +1,155 @@
+<script>
+/* Sales receipt */
+    function generate_item_rows(product_quantities_array){
+    // prints out row of product items w quantities product_quantities_array
+    for (i=0; i<product_quantities_array.length; i++){
+    errors = isNonNegIntString(product_quantities_array[i], true);
+    if (product_quantities_array[i] == 0) {
+    continue;
+    }
+    if(errors.length==0) {
+    extended_price = product_quantities_array[i] * products[i].price;
+    subtotal += extended_price;
+    } else {
+    product_quantities_array[i] = `<span style = "color:red;">${product_quantities_array[i]}<br>${errors.join("<br>")}</span>`;
+    }
+    document.write(`
+    <tr>
+    <td width="43%">${products[i].brand}</td>
+    <td align="center" width="11%">${product_quantities_array[i]}</td>
+    <td width="13%">${products[i].price}</td>
+    <td width="13%">${extended_price}</td>
+    </tr>
+    `);
+    }
+    }
+    function isNonNegIntString (val, returnErrors = false) {
+    // this function will check if string_to_check is a non negative interger. turns true if string_to_check is a non neh=gative interger
+    errors = []; // assume no errors at first
+    if(Number(val) != val) errors.push('Not a number!'); // Check if string is a number value
+    if(val< 0) errors.push('Negative value!'); // Check if it is non-negative
+    if(parseInt(val) != val) errors.push('Not an integer!'); // Check that it is an integer
+    return returnErrors ? errors : ((errors.length > 0)?false:true);
+    }
+
+    //Product Data
+    var products = [ 
+    {
+    "brand" : "HTC",
+    "price" : 40.00,
+    "image" : "http://dport96.github.io/ITM352/morea/080.flow-control-II/HTC.jpg"
+    },
+    {
+    "brand" : "Apple",
+    "price" : 75.00,
+    "image" : "http://dport96.github.io/ITM352/morea/080.flow-control-II/iphone-3gs.jpg"
+    },
+    {
+    "brand" : "Nokia",
+    "price" : 35.00,
+    "image" : "http://dport96.github.io/ITM352/morea/080.flow-control-II/Nokia.jpg"
+    },
+    {
+    "brand" : "Samsung",
+    "price" : 45.00,
+    "image" : "http://dport96.github.io/ITM352/morea/080.flow-control-II/Samsung.jpg"
+    },
+    {
+    "brand" : "Blackberry",
+    "price" : 10.00,
+    "image" : "http://dport96.github.io/ITM352/morea/080.flow-control-II/Blackberry.jpg"
+    }
+    ];
+
+    var quantities = [0,1,2,3,-4];
+
+    // Product 1
+    var item1 = 'Gillette Sensor 3 Razor';
+    var quantity1 = 2;
+    var price1 = 1.23;
+
+    // Product 2
+    var item2 = 'Barbasol Shaving Cream';
+    var quantity2 = 1;
+    var price2 = 2.64;
+
+    // Product 3
+    var item3 = 'Nautica Cologne';
+    var quantity3 = 1;
+    var price3 = 6.17;
+
+    // Product 4
+    var item4 = 'Rubbing Alcohol';
+    var quantity4 = 3;
+    var price4 = 0.98;
+
+    // Product 5
+    var item5 = 'Colgate Classic Toothbrush';
+    var quantity5= 12;
+    var price5 = 1.89;
+    var subtotal = 0;
+
+    </script>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    </head>
+    <body>
+    <table border="2">
+    <tbody>
+    <tr>
+    <th style="text-align: center;" width="43%">Item</th>
+    <th style="text-align: center;" width="11%">quantity</th>
+    <th style="text-align: center;" width="13%">price</th>
+    <th style="text-align: center;" width="54%">extended price</th>
+    </tr>
+    <script>
+    extended_price = quantity1 * price1;
+    subtotal = extended_price + subtotal;
+
+    generate_item_rows(quantities);
+
+    // Taxes
+    var tax = 0.0575;
+    var tax_amount = subtotal * tax;
+
+    // Shipping
+    if (subtotal <=50) {
+    shipping = 2;
+    }
+    else if (subtotal <=100) {
+    shipping = 5
+    }
+    else {
+    shipping = 0.05 * subtotal;
+    }
+
+    // Grand Total
+    var grand_total = subtotal + tax_amount + shipping;
+    </script>
+    <tr>
+    <td colspan="4" width="100%">&nbsp;</td>
+    </tr>
+    <tr>
+    <td style="text-align: center;" colspan="3" width="67%">Sub-total</td>
+    <td width="54%"><script>document.write(subtotal)</script></td>
+    </tr>
+    <tr>
+    <td style="text-align: center;" colspan="3" width="67%">Tax</span></td>
+    <td width="54%"><script>document.write(tax_amount.toFixed(2))</script></td>
+    </tr>
+    <tr>
+    <td style="text-align: center;" colspan="3" width="67%">Shipping</td>
+    <td width="54%"><script>document.write(shipping.toFixed(2))</script></td>
+    </tr>
+    <tr>
+    <td style="text-align: center;" colspan="3" width="67%"><strong>Total</strong></td>
+    <td width="54%"><strong><script>document.write(grand_total.toFixed(2))</script></strong></td>
+    </tr>
+    </tbody>
+    </table>
+    </body>
+    </html>

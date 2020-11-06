@@ -15,9 +15,9 @@
         }
         return returnErrors ? errors : ((errors.length > 0) ? false : true);
     }
-        function checkQuantityTextbox() {
-            quantity_textbox_message.innerHTML = isNonNegInt(quantity_textbox.value, true).
-            join(" ");
+        function checkQuantityTextbox(theTextbox) {
+            errs = isNonNegInt(theTextbox.value, true);
+            document.getElementById(theTextbox.name + '_message').innerHTML = errs.join(", ");
         }
         function displayPurchase() {
             purchase_qty = quantity_form["quantity_textbox"].value;
