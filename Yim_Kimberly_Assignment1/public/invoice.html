@@ -1,5 +1,5 @@
 <!--Kimberly Yim's Assignment 1: invoice page-->
-<!--Used invoice4 WOD as reference-->
+<!--Used invoice4 WOD & lab 12 as reference-->
 
 <script>
   /* Sales receipt */
@@ -34,7 +34,19 @@
       if(parseInt(val) != val) errors.push('Not an integer!'); // Check that it is an integer
       return returnErrors ? errors : ((errors.length > 0)?false:true);
       }
-  
+      let params = (new URL(document.location)).searchParams; // retrieves query string
+      var quantities = [];
+      if(params.has('submit_purchase')) { // Processes data entered into form
+        for (i = 0; i < products.length; i++) {
+          if (params.has('quantity${i}')) {
+            a_qty = params.get(`quantity${i}`);
+            a_qty = params.get(`quantity${i}`);
+              quantities[i] = a_qty;
+           }
+         }
+        } else {
+          window.location.href = "./earrings.html"; // sends user back to earrings page if there was no quantity entered
+        }
 
     // Product data
     var products = [
@@ -42,23 +54,20 @@
         "name": "Safety Pin Earrings",
         "price": 54.00,      
         "image": "pin_earrings.jpg",
-        "type": "Earrings",
     },
       {
-        "name": "Leaf Hoop Earrings",
+        "name": "Leaf Wreath Earrings",
         "price": 56.00,
         "image": "leaf_earrings.jpg",
-        "type": "Earrings",
       },
       {
         "name": "Pearl Leaves Earrings",
         "price": 58.00,
         "image": "PearlLeaf_earrings.jpg",
-        "type": "Earrings",
-      },
+      }
     ];
-
-    var quantities = [1,2,1];
+    // Product quantities
+    var quantities = [1,2,3];
 
      // Compute subtotal
      var subtotal = 0
@@ -68,10 +77,10 @@
      var tax = tax_rate*subtotal;
 
      // Compute shipping
-     if(subtotal <= 50) {
-       shipping = 2;
+     if(subtotal <= 30) {
+       shipping = 3;
      }
-     else if(subtotal <= 100) {
+     else if(subtotal <= 50) {
        shipping = 5;
      }
      else {
@@ -94,9 +103,9 @@
         <tbody>
           <tr>
             <th style="text-align: center;" width="43%">Item</th>
-            <th style="text-align: center;" width="11%">quantity</th>
-            <th style="text-align: center;" width="13%">price</th>
-            <th style="text-align: center;" width="54%">extended price</th>
+            <th style="text-align: center;" width="11%">Quantity</th>
+            <th style="text-align: center;" width="13%">Price</th>
+            <th style="text-align: center;" width="54%">Extended price</th>
           </tr>
           <script>
 
@@ -127,11 +136,11 @@
       </table>
       <div style = "font-weight:bold">
         <br>
-        OUR SHIPPING POLICY IS:A subtotal $0 - $49.99 will be $2 shipping
+        OUR SHIPPING POLICY IS:A subtotal $0 - $29.99 will be $3 shipping
         <br>
-        A subtotal $50 - $99.99 will be $5 shipping
+        A subtotal $30 - $49.99 will be $5 shipping
         <br>
-        Subtotals over $100 will be charged 5% of the subtotal amount
+        Subtotals over $50.00 will be charged 5% of the subtotal amount
       </div>
 </body>
 </html>

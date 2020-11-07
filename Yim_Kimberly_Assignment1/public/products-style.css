@@ -5,6 +5,11 @@ h1, h2 {
     text-align: center;
     font-family: sans-serif;
 }
+/* Header */
+.header {
+    margin-bottom: 0;
+    background-color: #E5DFCD
+  }
 
  /* Navbar */
 ul {
@@ -21,6 +26,9 @@ li {
     margin-left: 200px;
     margin-right: 75px;
     float: left;
+    background-color: #E5DFCD;
+    margin-bottom: 0px;
+    border-radius: 0;
 }
 
 /* General */
@@ -42,12 +50,6 @@ div {
     justify-content: space-evenly;
 }
 
-/* Images */
-img {
-    width: 200px;
-    height: 200px;
-}
-
 /* Form styling */
 main {
   display: flex;
@@ -55,7 +57,19 @@ main {
   justify-content: space-evenly;
 }
 
+/* Images */
+.item img {
+    width: 200px;
+    height: 200px;
+}
+
 /* Paragraphs */
 p {
     text-align: center;
-}
+} 
+ 
+  /* Add a gray background color and some padding to the footer */
+  footer {
+    background-color: #E5DFCD;
+    padding: 25px;
+  }

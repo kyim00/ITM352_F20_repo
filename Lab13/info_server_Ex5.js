@@ -60,4 +60,4 @@ function isNonNegInt(val, returnErrors = false) {
         if (val < 0) errors.push('Negative value!'); // Check if it is non-negative
         if (parseInt(val) != val) errors.push('Not an integer!'); // Check that it is an integer
     }
-    return returnErrors ? errors : ((errors.length == 0);
+    return returnErrors ? errors : ((errors.length == 0)); }

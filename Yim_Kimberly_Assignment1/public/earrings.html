@@ -1,28 +1,42 @@
 <!---Kimberly Yim's Assignment 1: earrings webpage-->
-<!---Used assignment 1 examples & invoice4 WOD as reference-->
-
-<script src = "./products.js"></script>
+<!---Used assignment 1 examples, invoice4 WOD, SmartPhoneProducts3, and w3schools' bootstrap online store template as reference-->
+<!--Images of products are from enroutejewelry.com-->
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="products-style.css"
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Earrings</title>
+  <title>Earrings</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+ <link rel="stylesheet" href="products-style.css"
 </head>
 <body>
-    <div id="navbar">
-        <ul>
-            <li><input type="button" value="Homepage" onclick="window.location.href = 'index.html'"></li>
-            <li><input type="button" value="Earrings" onclick="window.location.href = 'earrings.html'"></li>
-        </ul>
-    </div>
-    <img src="images/header.jpg">
-    <header><h1>F'20 Earrings Collection</h1></header>
-    <form action="./process_form" method="POST">
-    <div>
-        <main>
+
+<!--Creation of logo & navbar on top; Coding reference from w3schools' bootstrap online store template-->
+<div class="header">
+  <div class="container text-center">
+    <img src="images/logo.jpg">    
+  </div>
+</div>
+<div class="container text-center">
+<div id="navbar">
+    <ul>
+        <li><input type="button" value="Homepage" onclick="window.location.href = 'index.html'"></li>
+        <li><input type="button" value="Earrings" onclick="window.location.href = 'earrings.html'"></li>
+    </ul>
+</div>
+<ul class="nav navbar-nav navbar-right">
+<li><a href="invoice.html">Cart</a></li>
+</ul>
+</div>
+</div>
+</nav>
+</div>
+
+<!--Item product display; Coding reference from SmartPhoneProducts3 WOD-->
+<form name="process_purchase" action="/process_form" method="POST">
+<div class="container text-center">
+<script src = "./products.js" type="text/javascript"></script> 
     <script>
         for(i = 0; i <= products.length; i++) {
         document.write(`
@@ -34,12 +48,15 @@
         <img src="${products[i].image}">
         </section>
         `);
-        }
-    </script>
-</main>
-</div>
-   <input type="submit" value="Purchase"> 
+        } 
+        </script>       
+ </div>
+
+<footer class="container-fluid text-center">
+    <input type="submit" value="Purchase!" name="submit_purchase">
 </form>
-<footer>Jewels By Kim</footer>
+  <p>Jewels By Kim LLC</p>  
+</footer>
+
 </body>
 </html>
