@@ -1,8 +1,11 @@
 <!--Kimberly Yim's Assignment 1: invoice page-->
 <!--Used invoice4 WOD & lab 12 as reference-->
 
+<!--Acquire product informations; -->
+<script src="./products.js" type="text/javascript"></script>
+
 <script>
-  /* Sales receipt */
+/* Sales receipt from invoice4 WOD */
       function generate_item_rows(product_quantities_array){
       // prints out row of product items w quantities product_quantities_array
       for (i=0; i<product_quantities_array.length; i++){
@@ -34,38 +37,27 @@
       if(parseInt(val) != val) errors.push('Not an integer!'); // Check that it is an integer
       return returnErrors ? errors : ((errors.length > 0)?false:true);
       }
+
+/* Following code is modified from lab12 and assignment 1 example (Assignment1_2file)*/
+
+      // processes form submitted and converts into invoice 
       let params = (new URL(document.location)).searchParams; // retrieves query string
       var quantities = [];
-      if(params.has('submit_purchase')) { // Processes data entered into form
+      if(params.has('submit_purchase')) { // Processes data entered into form when purchase button is clicked
         for (i = 0; i < products.length; i++) {
-          if (params.has('quantity${i}')) {
+          if (params.has(`quantity${i}`)) {
             a_qty = params.get(`quantity${i}`);
             a_qty = params.get(`quantity${i}`);
               quantities[i] = a_qty;
            }
          }
         } else {
-          window.location.href = "./earrings.html"; // sends user back to earrings page if there was no quantity entered
+          document.write('No form submitted')
         }
+        console.log(quantities);
+  
+/* Following codes below are modified from invoice4 WOD */
 
-    // Product data
-    var products = [
-      {
-        "name": "Safety Pin Earrings",
-        "price": 54.00,      
-        "image": "pin_earrings.jpg",
-    },
-      {
-        "name": "Leaf Wreath Earrings",
-        "price": 56.00,
-        "image": "leaf_earrings.jpg",
-      },
-      {
-        "name": "Pearl Leaves Earrings",
-        "price": 58.00,
-        "image": "PearlLeaf_earrings.jpg",
-      }
-    ];
     // Product quantities
     var quantities = [1,2,3];
 
@@ -99,6 +91,7 @@
     <title>Invoice</title>
 </head>
 <body>
+  <!--Creates table; From Invoice4 WOD-->
     <table border="2">
         <tbody>
           <tr>
@@ -107,12 +100,13 @@
             <th style="text-align: center;" width="13%">Price</th>
             <th style="text-align: center;" width="54%">Extended price</th>
           </tr>
+
           <script>
-
-      // product rows
+      // Generates the quantities selected by customer into the invoice table; From Invoice4 WOD
             generate_item_rows(quantities);
-
           </script>
+
+        <!--Calculates and generates the subtotals, tax, shipping, and grand total into the invoice table; From Invoice4 WOD-->
           <tr>
             <td colspan="4" width="100%">&nbsp;</td>
           </tr>
@@ -134,6 +128,8 @@
           </tr>
         </tbody>
       </table>
+
+      <!--Displays shipping policy on bottom of invoice table; From Invoice4 WOD-->
       <div style = "font-weight:bold">
         <br>
         OUR SHIPPING POLICY IS:A subtotal $0 - $29.99 will be $3 shipping

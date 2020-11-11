@@ -1,7 +1,7 @@
 var products = 
 [
 {
-    "name": "Safety pin Earrings",
+    "name": "Safety Pin Earrings",
     "price": 54.00,      
     "image": "images/pin_earrings.jpg"
 },
