@@ -11,6 +11,22 @@ app.all('*', function (request, response, next) {
     next();
 });
 
+app.post("/process_form", function (request, response) {
+    console.log("Got POST");
+    let POST = request.body;
+    //response.send(POST); 
+    if (typeof POST['quantity_textbox'] != 'undefined') {
+        qty = POST["quantity_textbox"];
+        console.log(qty);
+        if (isNonNegInt(qty, false)) {
+            response.send(`<font color=blue>Thank <b>you</b> for ordering ${qty} things!</font>`);
+            //window.stop();
+        } else {
+            response.send(`${qty} is not a quantity! Press the back button and try again.`);
+        }
+    }
+});
+
 app.use(express.static('./public'));
 
 app.listen(8080, () => console.log(`listening on port 8080`)); // note the use of an anonymous function here

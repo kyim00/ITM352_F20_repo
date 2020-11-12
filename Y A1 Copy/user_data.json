@@ -1,0 +1,5 @@
+{
+    "TApple": {"name": "Tim Apple", "password": "timspassword", "email": "tapple@hawaii.edu"},
+    "JDoe": {"name": "Jane Doe", "password": "janesnpassword", "email": "jdoe@hawaii.edu"},
+    "KimK": {"name": "Kim K", "password": "kimspassword", "email": "kimk@hawaii.edu"}
+}
