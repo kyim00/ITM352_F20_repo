@@ -39,7 +39,7 @@ function isNonNegInt(q, returnErrors = false) {
             let name = products[i]['name'];
             let name_price = products[i]['price'];
             if (isNonNegInt(q)) {
-                receipt += eval('`' + contents + '`'); // render template string
+                receipt += eval('`' + contents + '`'); // Render template string
             } else {
                 receipt += `<h3><font color="red">${q} is not a valid quantity for ${model}!</font></h3>`;
             }
@@ -51,7 +51,7 @@ function isNonNegInt(q, returnErrors = false) {
 // Strings query; From lab 13
 qString = querystring.stringify(POST);
    if (hasValidQuantities == true && hasPurchases == true) { 
-       response.redirect("./invoice.html?" + qString); // Redirects to ivoice if the query string is correct
+       response.redirect("./invoice.html?" + qString); // Redirects to invoice if the query string is correct
    }
    else { 
        response.redirect("./earrings.html?" + qString); // If customer inputs invalid quantities, will redirect back to the earrings page
