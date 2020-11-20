@@ -1,0 +1,62 @@
+<!--Kimberly Yim's Assignment 2: Registration Page-->
+<!--Coding reference is from Lab14-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Registration page</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="login.css">
+</head>
+
+<body>
+<!--Creation of logo & navbar on top; Coding reference from w3schools' bootstrap online store template-->
+    <div class="header">
+        <div class="container text-center">
+          <img src="images/logo.jpg">    
+        </div>
+      </div>
+      <div class="container text-left">
+      <div id="navbar">
+          <ul>
+             <li><input type="button" value="Homepage" onclick="window.location.href = 'index.html'"></li>
+              <li><input type="button" value="Earrings" onclick="window.location.href = 'earrings.html'"></li>
+          </ul>
+      </div>
+      </nav>
+      </div>
+  <div class = "center">
+  <form name="Registration" action="process_registration" method="POST">
+    <div class="container">
+      <h1>Register</h1>
+      <p>Please fill in this form to create an account.</p>
+      <hr>
+      <label for="username"><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" title="Min: 4 characters, Max: 10 characters, Numbers and Letters only" name="username" id="username" required> 
+
+      <label for="email"><b>Email</b></label>
+      <input type="text" placeholder="Enter Email" name="email" id="email" required>
+  
+      <label for="password"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" title="Min: 6 characters" name="password" id="password" required>
+  
+      <label for="password-repeat"><b>Repeat Password</b></label>
+      <input type="password" placeholder="Repeat Password" title="Min: 6 characters" name="password-repeat" id="password-repeat" required>
+      <hr>
+
+      <button type="submit" class="btn">Register</button>
+    </div>
+  
+    <div class="container signin">
+      <p>Already have an account? <a href="login.html">Sign in</a>.</p>
+    </div>
+  </form>
+</div>
+</body>
+
+<!--footer-->
+<footer class="container-fluid text-center">
+  <p>Jewels By Kim LLC</p>
+</footer>

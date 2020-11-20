@@ -1,0 +1,53 @@
+<!--Kimberly Yim's Assignment 2: Login Page-->
+<!--Coding reference is from Lab14-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Login page</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="login.css">
+</head>
+
+<body>
+<!--Creation of logo & navbar on top; Coding reference from w3schools' bootstrap online store template-->
+    <div class="header">
+        <div class="container text-center">
+          <img src="images/logo.jpg">    
+        </div>
+      </div>
+      <div class="container text-left">
+      <div id="navbar">
+          <ul>
+             <li><input type="button" value="Homepage" onclick="window.location.href = 'index.html'"></li>
+              <li><input type="button" value="Earrings" onclick="window.location.href = 'earrings.html'"></li>
+          </ul>
+      </div>
+      </nav>
+      </div>
+  <div class = "center">
+    <form name="Login" action="process_login" method="POST">
+    <div class="container">
+      <h1>Login</h1>
+      <hr>
+      <label for="username"><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" title="Min: 4 characters, Max: 10 characters, Numbers and Letters only" name="username" id="username" required> 
+
+      <label for="password"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" title="Min: 6 characters" name="password" id="password" required>
+
+      <button type="submit" class="btn">Login</button>
+    </div>
+    <div class="container signin">
+        <p>New user?<a href="register.html">click to register!</a>.</p>
+      </div>
+  </form>
+</div>
+</body>
+
+<!--footer-->
+<footer class="container-fluid text-center">
+  <p>Jewels By Kim LLC</p>
+</footer>

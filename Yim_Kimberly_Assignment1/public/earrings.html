@@ -15,10 +15,10 @@
     }
     // Function to check if the data is valid ; From Lab 13
     function checkQuantityTextbox(theTextbox) {
-        errs = isNonNegInt(theTextbox.value, true);
-        if (errs.length == 0) errs = ['You want:'];
-        if (theTextbox.value.trim() == '') errs = ['Quantity'];
-        document.getElementById(theTextbox.name + '_label').innerHTML = errs.join(", ");
+        errors = isNonNegInt(theTextbox.value, true);
+        if (errors.length == 0) errors = ['You want:'];
+        if (theTextbox.value.trim() == '') errors = ['Quantity'];
+        document.getElementById(theTextbox.name + '_label').innerHTML = errors.join(", ");
     }
 </script>
 
@@ -42,7 +42,6 @@
 <div id="navbar">
     <ul>
         <li><input type="button" value="Homepage" onclick="window.location.href = 'index.html'"></li>
-        <li><input type="button" value="Earrings" onclick="window.location.href = 'earrings.html'"></li>
     </ul>
 </div>
 <ul class="nav navbar-nav navbar-right">
@@ -54,7 +53,7 @@
 </div>
 
 <!--Item product display through a loop; Coding reference from SmartPhoneProducts3 WOD-->
-<form name="process_form" action="/process_form" method="POST">
+<form name = "process_form" action = "/process_form" method = "POST">
 <div class="container text-center">
     <script>
         for(i = 0; i <= products.length; i++) {
@@ -76,6 +75,6 @@
 </form>
   <p>Jewels By Kim LLC</p>  
 </footer>
-
 </body>
+
 </html>

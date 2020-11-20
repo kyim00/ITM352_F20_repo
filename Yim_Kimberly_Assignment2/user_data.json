@@ -1,0 +1,5 @@
+{
+    "itm352": {"name": "ITM 352", "password": "grader", "email": "itm352@hawaii.edu"},
+    "kcyim": {"name": "Kimberly Yim", "password": "kimspassword", "email": "kcyim@hawaii.edu"},
+    "jdoe": {"name": "Jane Doe", "password": "janesnpassword", "email": "jdoe@hawaii.edu"}
+}

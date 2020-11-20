@@ -1,0 +1,81 @@
+/* Kimberly Yim's Assignment 2: CSS sheet*/
+
+/* Typography */
+h1, h2 {
+    text-align: center;
+    font-family: sans-serif;
+}
+/* Header */
+.header {
+    margin-bottom: 0;
+    background-color: #E5DFCD
+  }
+
+ /* Navbar */
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    display: inline;
+}
+
+#navbar {
+    margin-left: 200px;
+    margin-right: 75px;
+    float: left;
+    background-color: #E5DFCD;
+    margin-bottom: 0px;
+    border-radius: 0;
+}
+
+/* General */
+body {
+    text-align: center;
+    width: 1000px;
+    margin: 0 auto;
+    background-image: url(./images/background.jpg);
+    background-repeat: repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+/* Block styling */
+div {
+    background-color: white;
+    border: 1px solid black;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+/* Form styling */
+main {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+}
+
+/* Body */
+.center {
+    margin-bottom: 0;
+    background-color: #E5DFCD
+}
+
+/* Images */
+.item img {
+    width: 200px;
+    height: 200px;
+}
+
+/* Paragraphs */
+p {
+    text-align: center;
+} 
+ 
+  /* Add a gray background color and some padding to the footer */
+  footer {
+    background-color: #E5DFCD;
+    padding: 25px;
+  }
