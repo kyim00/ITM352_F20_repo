@@ -1,0 +1,92 @@
+<!---Kimberly Yim's Assignment 1: earrings webpage-->
+<!---Used assignment 1 examples, lab 12, Lab 13, SmartPhoneProducts3, and w3schools' bootstrap online store template-->
+<!--Images of products are from enroutejewelry.com-->
+
+<script src="./products.js" type="text/javascript">
+  // Function that checks for invalid data entries; From lab 12
+  function isNonNegInt(q, return_errors = false) {
+      errors = []; // Assumes there are no errors
+      if(q == '') q =0; // Sets blank inputs to 0
+      if (Number(q) != q) errors.push('<font color="red">Not a number!</font>'); // Checks if string is a number value
+      else if (q < 0) errors.push('<font color="red">Negative value!</font>'); // Checks if it is non-negative value
+      else if (parseInt(q) != q) errors.push('<font color="red">Not an integer!</font>'); // Check that it is an integer
+      return return_errors ? errors : (errors.length == 0);
+  }
+  // Function to check if the data is valid ; From Lab 13
+  function checkQuantityTextbox(theTextbox) {
+      errors = isNonNegInt(theTextbox.value, true);
+      if (errors.length == 0) errors = ['You want:'];
+      if (theTextbox.value.trim() == '') errors = ['Quantity'];
+      document.getElementById(theTextbox.name + '_label').innerHTML = errors.join(", ");
+  }
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Earrings | Jewels By Kim</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="products-style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<!--w3schools' online store webpage template-->
+
+<!--Create jumbotron (header on top)-->
+<body>
+<div class="jumbotron"></div>
+
+<!--Create navigation bar-->
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="index.html">Homepage</a></li>
+        <li class="active"><a href="earrings.html">Earrings</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!--Create submission form; Coding reference from assignment 1 screencast-->
+<form name = "process_form" action = "/process_form" method = "POST">
+<!--for loop to display item products; Coding reference from SmartPhoneProducts3 WOD-->
+<script>
+  for(i = 0; i <= products.length; i++) {
+  document.write(`
+  <section class="item">
+  <div class="col-sm-4"> 
+  <div class="panel panel-primary">
+  <div class="panel-heading"><h3>${products[i].name}</h3></div>
+  <div class="panel-body"><img src="${products[i].image}" style="width:100%" alt="Image"></div>
+  <h2><p>$${products[i].price}</p></h2>
+  <p><label>Quantity</label>
+  <input type="text" placeholder="0" name="quantity${i}" onkeyup="checkQuantityTextbox(this);"></p>
+  </section></div></div>
+  `);
+  } 
+  </script>  
+
+<!--Container for submission button; Coding reference from assignment 1 screencast-->
+<div class="container">
+  <div class="center">
+<p><input type="submit" value="Purchase!" name="submit_purchase" class="button"></p>
+</form></div></div>
+
+<!--Footer-->
+<footer class="container-fluid text-center">
+  <b><p>Jewels By Kim LLC</p></b>
+</footer>
+
+</body>
+</html>

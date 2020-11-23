@@ -1,0 +1,115 @@
+<!--Kimberly Yim's Assignment 1: invoice page-->
+<!--Used invoice4 WOD & lab 12 as reference-->
+
+<!--Acquire product informations-->
+<script src="./products.js" type="text/javascript"></script>
+
+<script>
+/* Following code is modified from lab12 and assignment 1 example (Assignment1_2file)*/
+
+      // processes form submitted and converts into invoice 
+      let params = (new URL(document.location)).searchParams; // retrieves query string
+      var quantities = [];
+      if(params.has('submit_purchase')) { // Processes data entered into form when purchase button is clicked
+        for (i = 0; i < products.length; i++) {
+          if (params.has(`quantity${i}`)) {
+            a_quantity = params.get(`quantity${i}`);
+              quantities[i] = a_quantity;
+           }
+         }
+        } else {
+          document.write('No form submitted') // When button is not clicked, will display "No form submitted"
+        }
+        console.log(quantities);
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+</head>
+<body>
+  <!--Creates table; From Invoice4 WOD-->
+    <table border="2">
+        <tbody>
+          <tr>
+            <th style="text-align: center;" width="43%">Item</th>
+            <th style="text-align: center;" width="11%">Quantity</th>
+            <th style="text-align: center;" width="13%">Price</th>
+            <th style="text-align: center;" width="54%">Extended price</th>
+          </tr>
+
+          <script>
+      // Generates the quantities selected by customer into the invoice table; From Invoice4 WOD
+          var subtotal = 0
+          for (i = 0; i < products.length; i++) {
+              if (quantities[i] > 0) {
+                // product row
+                extended_price = quantities[i] * products[i].price;
+                subtotal += extended_price;
+            document.write(`
+              <tr>
+              <td width="43%">${products[i].name}</td>
+              <td align="center" width="11%">${quantities[i]}</td>
+              <td width="13%">${products[i].price}</td>
+              <td width="13%">${extended_price.toFixed(2)}</td>
+              </tr>
+              `);
+            }
+          }
+              /* Following codes below are modified from invoice4 WOD */
+              // Compute tax
+              var tax_rate = 0.0575;
+              var tax = tax_rate*subtotal;
+
+              // Compute shipping
+              if(subtotal <= 30) {
+                shipping = 3;
+              }
+              else if(subtotal <= 50) {
+                shipping = 5;
+              }
+              else {
+                shipping = 0.05*subtotal; // 5% of total
+              }
+
+              // Compute grand total
+              var grand_total = subtotal + tax + shipping;
+          </script>
+
+        <!--Calculates and generates the subtotals, tax, shipping, and grand total into the invoice table; From Invoice4 WOD-->
+          <tr>
+            <td colspan="4" width="100%">&nbsp;</td>
+          </tr>
+          <tr>
+            <td style="text-align: center;" colspan="3" width="67%">Sub-total</td>
+            <td width="54%">$<script>document.write(subtotal);</script></td>
+          </tr>
+          <tr>
+            <td style="text-align: center;" colspan="3" width="67%"><span style="font-family: arial;">Tax @ <script>document.write(100*tax_rate);</script></span></td>
+            <td width="54%">$<script>document.write(tax.toFixed(2));</script></td>
+          </tr>
+          <tr>
+            <td style="text-align: center;" colspan="3" width="67%"><span style="font-family: arial;">Shipping</span></td>
+            <td width="54%">$<script>document.write(shipping.toFixed(2));</script></td>
+          </tr>
+          <tr>
+            <td style="text-align: center;" colspan="3" width="67%"><strong>Total</strong></td>
+            <td width="54%"><strong>$<script>document.write(grand_total.toFixed(2));</script></strong></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!--Displays shipping policy on bottom of invoice table; From Invoice4 WOD-->
+      <div style = "font-weight:bold">
+        <br>
+        OUR SHIPPING POLICY IS:A subtotal $0 - $29.99 will be $3 shipping
+        <br>
+        A subtotal $30 - $49.99 will be $5 shipping
+        <br>
+        Subtotals over $50.00 will be charged 5% of the subtotal amount
+      </div>
+</body>
+</html>
