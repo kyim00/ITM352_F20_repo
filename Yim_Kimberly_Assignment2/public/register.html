@@ -1,62 +1,108 @@
-<!--Kimberly Yim's Assignment 2: Registration Page-->
-<!--Coding reference is from Lab14-->
+<!--Kimberly Yim's Assignment 2: Registration page-->
+<!--Used w3schools' online store webpage template as template-->
+<!--Used lab 14 as reference-->
 
+<script>
+  /* Alert for invalid entries; Code reference from Alyssa */
+  let params = (new URL(document.location)).searchParams;
+  window.onload = function () {
+    if (params.has('errors')) { 
+      console.log("Invalid entries entered")
+        alert('Please fix the following errors: \n' + params.get('errors'));
+    }
+  }
+</script>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Registration page</title>
+  <title>Registration | Jewels By Kim</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="login.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="products-style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 
+<!--To position footer at the bottom; Coding reference from freeCodeCamp <https://www.freecodecamp.org/news/how-to-keep-your-footer-where-it-belongs-59c6aa05c59c/>-->
+<style>
+  footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+</style>
+
+<!--w3schools' online store webpage template-->
+
+<!--Create jumbotron (header on top); w3schools' template-->
 <body>
-<!--Creation of logo & navbar on top; Coding reference from w3schools' bootstrap online store template-->
-    <div class="header">
-        <div class="container text-center">
-          <img src="images/logo.jpg">    
+<div class="jumbotron"></div>
+
+<!--Create navigation bar; w3schools' template-->
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="index.html">Homepage</a></li>
+        <li><a href="earrings.html">Earrings</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+      <li><a href="login.html"><span class="glyphicon glyphicon-user"></span>Login</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+ <!--Regstration form; Code reference from lab 14; Reference for patterns from Alyssa and w3school <https://www.w3schools.com/tags/att_input_pattern.asp>-->
+  <div class="container">
+    <form name="registration_form" action="process_registration" method="POST">
+        <h1>Registration</h1>
+        <h3>Please fill out this form to create an account!</h3>
+        <br> 
+        <!--Full name; pattern matches any letters-->
+        <label for="name"><h4>Full Name</h4></label>
+        <input type="text" placeholder="Enter first and last name" title="Maximum: 30 characters" name="fullname" id="name" pattern="[a-zA-Z]+[ ]+[a-zA-Z]+" required> 
+        <br>
+        <!--Username; pattern matches letters and numbers with the range from 4 - 10-->
+        <label for="username"><h4>Username</h4></label>
+        <input type="text" placeholder="Enter Username" title="Minimum: 4 characters, Maximum: 10 characters, Numbers and Letters only" name="username" id="username" pattern=".[a-z0-9]{3,10}" required> 
+         <br> 
+         <!--Email; pattern only allows letters and numbers for the user address and 2 or more letters for the domain name-->
+        <label for="email"><h4>Email</h4></label>
+        <input type="text" placeholder="Enter Email" name="email" id="email" pattern="[a-z0-9._]+@[a-z0-9]+\.[a-z]{2,}$" required>
+        <br>  
+        <!--Password; pattern only allows passwords that are 6 or more characters long-->
+        <label for="password"><h4>Password</h4></label>
+        <input type="password" placeholder="Enter Password" title="Minimum: 6 characters" name="password" id="password" pattern=".{6,}" required>
+        <br>
+        <!--Repeating the password; pattern only allows passwords that are 6 or more characters long-->
+        <label for="repeat_password"><h4>Repeat Password</h4></label>
+        <input type="password" placeholder="Repeat Password" title="Min: 6 characters" name="repeat_password" id="repeat_password" pattern=".{6,}" required>
         </div>
-      </div>
-      <div class="container text-left">
-      <div id="navbar">
-          <ul>
-             <li><input type="button" value="Homepage" onclick="window.location.href = 'index.html'"></li>
-              <li><input type="button" value="Earrings" onclick="window.location.href = 'earrings.html'"></li>
-          </ul>
-      </div>
-      </nav>
-      </div>
-  <div class = "center">
-  <form name="Registration" action="process_registration" method="POST">
-    <div class="container">
-      <h1>Register</h1>
-      <p>Please fill in this form to create an account.</p>
-      <hr>
-      <label for="username"><b>Username</b></label>
-      <input type="text" placeholder="Enter Username" title="Min: 4 characters, Max: 10 characters, Numbers and Letters only" name="username" id="username" required> 
+        <br>
+        <div class="container">
+        <button type="submit" class="button2">Register</button>
+      </form>
+        </div>
 
-      <label for="email"><b>Email</b></label>
-      <input type="text" placeholder="Enter Email" name="email" id="email" required>
-  
-      <label for="password"><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" title="Min: 6 characters" name="password" id="password" required>
-  
-      <label for="password-repeat"><b>Repeat Password</b></label>
-      <input type="password" placeholder="Repeat Password" title="Min: 6 characters" name="password-repeat" id="password-repeat" required>
-      <hr>
+   <script>
+     /* Saves the quantity data (query string) to be able to display on the invoice */
+    registration_form.action += document.location.search;
+  </script>
 
-      <button type="submit" class="btn">Register</button>
-    </div>
-  
-    <div class="container signin">
-      <p>Already have an account? <a href="login.html">Sign in</a>.</p>
-    </div>
-  </form>
-</div>
-</body>
-
-<!--footer-->
-<footer class="container-fluid text-center">
-  <p>Jewels By Kim LLC</p>
+<!--Footer-->
+<footer>
+  <b><p>Jewels By Kim LLC</p></b>
 </footer>
+
+</body>
+</html>

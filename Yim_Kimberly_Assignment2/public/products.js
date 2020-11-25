@@ -1,31 +1,35 @@
-/* Kimberly Yim's Assignment 2: products array */
-
+/* Kimberly Yim's Assignment 2: Product array */
 var products = 
 [
   {
-    "name": "Simple Hoop Earrings",
+    "product_name": "Simple Hoop Earrings",
     "price": 50.00,
     "image": "images/hoops_earrings.jpg"
   },
-{
-    "name": "Safety Pin Earrings",
+  {
+    "product_name": "Double Hoop Earrings",
+    "price": 52.00,      
+    "image": "images/double_earrings.jpg"
+  },
+  {
+    "product_name": "Safety Pin Earrings",
     "price": 54.00,      
     "image": "images/pin_earrings.jpg"
-},
+  },
   {
-    "name": "Leaf Wreath Earrings",
+    "product_name": "Evergreen Wreath Earrings",
     "price": 56.00,
-    "image": "images/leaf_earrings.jpg"
+    "image": "images/evergreen_earrings.jpg"
   },
   {
-    "name": "Pearl Leaves Earrings",
+    "product_name": "Pearl Laurel Wreath Earrings",
     "price": 58.00,
-    "image": "images/PearlLeaf_earrings.jpg"
+    "image": "images/laurel_earrings.jpg"
   },
   {
-    "name": "Gold Daisies Earrings",
+    "product_name": "Gold Daffodil Earrings",
     "price": 60.00,
-    "image": "images/daisies_earrings.jpg"
+    "image": "images/daffodil_earrings.jpg"
   }
 ];
 

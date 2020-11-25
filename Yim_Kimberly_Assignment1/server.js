@@ -17,6 +17,8 @@ app.all('*', function (request, response, next) {
 
 app.use(myParser.urlencoded({ extended: true }));
 
+
+
 app.post("/process_form", function (request, response) {
         let POST = request.body;
     /* Validation; Coding reference from Alyssa */
