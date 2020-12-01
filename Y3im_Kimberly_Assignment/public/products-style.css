@@ -1,0 +1,95 @@
+/* Kimberly Yim's Assignment 2: CSS sheet*/
+
+/* CSS is made with the help from w3schools' bootstrap online store template */  
+
+/* Typography */
+h1, h2, h3 {
+    text-align: center;
+    font-family: 'Lucida Sans Unicode', "Lucida Grande", sans-serif;
+}
+
+/* Paragraph text */
+p {
+    text-align: center;
+    font-family: 'Lucida Sans Unicode', "Lucida Grande", sans-serif;
+}
+
+/* Navbar: Remove the navbar's default rounded borders and increase the bottom margin */
+.navbar {
+    margin-bottom: 50px;
+    border-radius: 0;
+    font-family: 'Lucida Sans Unicode', "Lucida Grande", sans-serif;
+    font-size: 20px;
+    background-color: #04233b;
+}
+  
+/* Jumbotron (top header): Add background image & remove the jumbotron's default bottom margin */ 
+.jumbotron {
+    margin-bottom: 0;
+    background-image: url(./images/logo.jpg), url(./images/flowers.jpg);
+    background-repeat: no-repeat, repeat;
+    background-position: center;
+}
+ 
+/* Body: Add background color */
+body {
+    background-color:#FFFBF0;
+}
+
+/* Container: Helps center contents; Coding reference from javatpoint.com */
+.container {
+    display: flex; 
+    justify-content: center;  
+    align-items: center;  
+}
+
+/* White container */
+.white_container {
+    background-color: white;
+    display: flex; 
+    justify-content: center;  
+    align-items: center;  
+}
+
+/* Beige container */
+.beige_container {
+    background-color: #FFFBF0;
+    display: flex; 
+    justify-content: center;  
+    align-items: center;  
+}
+
+/* Row: flex element; Coding reference from w3 schools' how to instructions for side by side images*/
+.row {
+    display: flex;
+  }
+  
+/* Column: To display the 3 photos side by side; Coding reference from w3 schools' how to instructions for side by side images */
+  .column {
+    flex: 33.33%;
+    padding: 5px;
+  }
+
+/* Button for the earring's page: Change font, background color, and make it larger */
+.button {
+    font-family: 'Lucida Sans', "Lucida Grande", sans-serif;
+    background-color: white;
+    padding: 20px;
+    font-size: 20px;
+}
+
+/* Smaller button */
+.button2 {
+    font-family: 'Lucida Sans', "Lucida Grande", sans-serif;
+    background-color: white;
+    padding: 10px;
+    font-size: 20px;
+}
+
+
+/* Footer: Align text to the center, add background image, and padding to the footer */
+footer {
+    text-align: center;
+    background-image: url(./images/background.jpg);
+    padding: 25px;
+}

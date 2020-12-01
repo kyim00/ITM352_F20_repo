@@ -1,0 +1,102 @@
+<!--Kimberly Yim's Assignment 2: Login page-->
+<!--Used w3schools' online store webpage template as template-->
+<!--Used lab 14 as reference-->
+
+<script>
+  /* Alert for invalid usernames and passwords; Code reference from Alyssa */
+  let params = (new URL(document.location)).searchParams;
+  window.onload = function () {
+    if (params.has('login_error')) { 
+        alert('Invalid username or password entered');
+    }
+  }
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Login | Jewels By Kim</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="products-style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<!--To position footer at the bottom; Coding reference from freeCodeCamp <https://www.freecodecamp.org/news/how-to-keep-your-footer-where-it-belongs-59c6aa05c59c/>-->
+<style>
+  footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+</style>
+
+<!--w3schools' online store webpage template-->
+
+<!--Create jumbotron (header on top); w3schools' template-->
+<body>
+<div class="jumbotron"></div>
+
+<!--Create navigation bar; w3schools' template-->
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="index.html">Homepage</a></li>
+        <li><a href="earrings.html">Earrings</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+      <li class="active"><a href="login.html"><span class="glyphicon glyphicon-user"></span>Login</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!--Login form; Code reference from lab 14-->
+<div class="container">
+<form name="login_form" action="process_login" method="POST">
+    <h1>Login</h1>
+    <h3>Please log in to make a purchase!</h3>
+    <br>
+    <label for="username"><h4>Username</h4></label>
+    <input type="text" placeholder="Enter Username" title="Min: 4 characters, Max: 10 characters, Numbers and Letters only" name="username" id="username" required> 
+    <br>  
+    <label for="password"><h4>Password</h4></label>
+    <input type="password" placeholder="Enter Password" title="Min: 6 characters" name="password" id="password" required>
+  </div>
+  <br>
+  <div class="container">
+    <button type="submit" class="button2">Login</button>
+  </form>
+    </div>
+</form>
+<br>
+<br>
+<br>
+<br>
+      <!--Link to registration page-->
+      <div class="container">
+        <h2>New user?<a href="register.html"> Click here to create an account!</a></h2>
+      </div>
+
+   <script>
+    /* Saves the quantity data (query string) to be able to display on the invoice */
+   login_form.action += document.location.search;
+   </script>
+
+<!--Footer-->
+<footer>
+  <b><p>Jewels By Kim LLC</p></b>
+</footer>
+
+</body>
+</html>
