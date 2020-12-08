@@ -111,11 +111,11 @@ app.post("/process_registration", function (request, response) {
         console.log(errors)
         var username = request.body.username // Allows variable username to get the username data from the body
     /* The following will get inputted to the user_data.json */
-        users_reg_data[username] = {};
-        users_reg_data[username].name = request.body.name;
-        users_reg_data[username].username = request.body.username
-        users_reg_data[username].password = request.body.password;
-        users_reg_data[username].email = request.body.email;
+        users_reg_data[username] = {}; // Create blank object to put our info inside; An empty "bag"
+        users_reg_data[username].name = request.body.name; // Add name to "bag"
+        users_reg_data[username].username = request.body.username // Add username to "bag"
+        users_reg_data[username].password = request.body.password; // Add password to "bag"
+        users_reg_data[username].email = request.body.email; // Add email to "bag"
         fs.writeFileSync(filename, JSON.stringify(users_reg_data)); // Gets written into user_data.json as a string
         response.redirect('./invoice.html?' + queryString.stringify(request.query)); // Redirects to invoice if all is ok
     } else { 

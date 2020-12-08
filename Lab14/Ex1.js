@@ -6,7 +6,7 @@ const fs = require('fs')
 const user_data_filename = 'user_data.json'
 
 // checks if file exists before reading
-if(fs.existsSync(filename)) {
+if(fs.existsSync(user_data_filename)) {
     stats = fs.statSync(user_data_filename);
     console.log(`user_data.json has ${stats['size']} characters`);
 } 
@@ -18,8 +18,8 @@ users_reg_data = JSON.parse(data); // want to parse it to convert the string fro
 /* Add an example new user reg info */
 username = 'newuser';
 users_reg_data[username] = {}; // Create blank object to put our info inside; An empty "bag"
-reg_data[username].password = request.body.password; // Add the new password to "bag"
-reg_data[username].email = request.body.email; // Add the new email to "bag"
+users_reg_data[username].password = request.body.password; // Add the new password to "bag"
+users_reg_data[username].email = request.body.email; // Add the new email to "bag"
 
 /* Write updated object to user_data_filename */ 
 reg_info_str = JSON.stringify(users_reg_data) // users_reg_data is converted to a string because we can only write strings to the writeFileSync; has old & new data; Each new user gets overwrited
