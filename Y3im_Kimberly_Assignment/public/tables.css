@@ -1,0 +1,14 @@
+/* Kimberly Yim's CSS for Tables */
+.purchases {
+    font-family: 'Lucida Sans Unicode', "Lucida Grande", sans-serif;
+}
+
+table th {
+    background-color: #0F3857;
+    color: white;
+    font-family: 'Lucida Sans Unicode', "Lucida Grande", sans-serif;
+}
+
+tr:nth-child(even) {
+    background-color: #D9E4EB;
+}

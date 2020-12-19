@@ -3,10 +3,20 @@ var app = express();
 var myParser = require("body-parser");
 var fs = require('fs');
 var cookieParser = require('cookie-parser'); // lab 15
+const { nextTick } = require('process');
+var session = require('express-session');
 
 app.use(cookieParser()); // cookieParser will receive requests and put it into objects
-
+app.use(session({secret: "ITM352 rocks!"}));
 app.use(myParser.urlencoded({ extended: true }));
+
+app.all("*", function (request, response, next) {
+    if(!request.session.lastLogin) {
+        request.session.lastLogin = null;
+    }
+    console.log(request.session);
+    next();
+});
 
 /* lab 15 begins */
 /* put BELOW app.use(cookieParser), and the app.use(myParser), since we are using that, but ABOVE app.use(static) */
@@ -20,13 +30,14 @@ app.get("/use_cookie", function (request, response) {
     if(typeof request.cookies['myname'] != 'undefined') {
         thename = request.cookies("myname")
     }
-    response.send('Welcome to the Use Cookie page <your name>'); // What appears in the browser
+    response.send(`Welcome to the Use Cookie page ${thename}`); // What appears in the browser
 });
 
 app.get("/use_session", function (request, response) {
-    if(typeof sessionStorage.id != 'undefined') {
-        response.send(`welcome, your session ID is ${session.id}`)
-    }
+    console.log(request.session);
+     if(typeof request.session.id != 'undefined') {
+         response.send(`welcome, your session ID is ${request.session.id}`);
+     }
 });
 
 /* end of lab 15 */
@@ -45,7 +56,7 @@ if (fs.existsSync(filename)) {
 
 /* lab 15 ex2d */
 app.get("/login", function (request, response) {
-    if(typeof request.session.lastLogin != 'undefined') {
+    if(request.session.lastLogin) {
         lastLogin = request.session.lastLogin; // Is only defined after you login
     } else {
         lastLogin = 'First login!'; // If have not logged in before it will say "first login"
@@ -70,12 +81,11 @@ app.post("/process_login", function (request, response) {
     //convert all to lower case when comparing 
     if (typeof users_reg_data[request.body.username] != 'undefined') {
         if (request.body.password == users_reg_data[request.body.username].password) {
-            response.send(`Thank you ${request.body.username} for logging in.`);
-            /* lab 15 2c */
+            /* lab 15 2c below*/
             var now = new Date(); // Defining date
+            request.session.lastLogin = now.getTime(); // Gets the time value
             console.log(`${request.body.username} logged in on ${now.toDateString()}`);
-            request.session.lastLogin = now.toString();
-            getTime();
+            response.send(`Thank you ${request.body.username} for logging in.`); // need to move this after the time bc it will send this last
         } else {
             response.send(`Hey! ${request.body.username} does not match what we have for you!`);
         }

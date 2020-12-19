@@ -1,4 +1,4 @@
-<!--Kimberly Yim's Assignment 2: Login page-->
+<!--Kimberly Yim's Assignment 3: Login page-->
 <!--Used w3schools' online store webpage template as template-->
 <!--Used lab 14 as reference-->
 
@@ -24,13 +24,13 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 
-<!--To position footer at the bottom; Coding reference from freeCodeCamp <https://www.freecodecamp.org/news/how-to-keep-your-footer-where-it-belongs-59c6aa05c59c/>-->
 <style>
-  footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-  }
+/* To position footer at the bottom; Coding reference from freeCodeCamp <https://www.freecodecamp.org/news/how-to-keep-your-footer-where-it-belongs-59c6aa05c59c/> */
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
 </style>
 
 <!--w3schools' online store webpage template-->
@@ -53,10 +53,51 @@
       <ul class="nav navbar-nav">
         <li><a href="index.html">Homepage</a></li>
         <li><a href="earrings.html">Earrings</a></li>
+        <li><a href="rings.html">Rings</a></li>
+        <li><a href="necklaces.html">Necklaces</a></li>
+        <li><a href="bracelets.html">Bracelets</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-      <li class="active"><a href="login.html"><span class="glyphicon glyphicon-user"></span>Login</a></li>
-      </ul>
+        <li><a href="cart.html"><span class="glyphicon glyphicon-shopping-cart"></span>
+          <script>
+            /* To display number of items in cart if there is any; Coding reference from Alyssa */
+            var cart = sessionStorage.length; // Cart becomes stored as a session
+            if (cart > 0) { // If the item is in the cart is greater than 0, it will display the amount of items in cart in blue color
+              document.write(`
+                  Shopping Cart <font color="#99ccff">(${cart})</font>`)
+            }
+            else { // If there is nothing in the cart, will just say display shopping cart label
+              document.write(`Shopping Cart`)
+            };
+          </script>
+        </a></li>
+      <script>
+        /* Function that returns value of a cookie; Ensures security to only allow the user with the cookie to access the page; Coding reference from w3schools - https://www.w3schools.com/js/js_cookies.asp */
+        function getCookie(cname) {
+          var name = cname + "=";
+          var decodedCookie = decodeURIComponent(document.cookie); //decode the cookie
+          var ca = decodedCookie.split(';'); // Split string by ';'
+          for (var i = 0; i < ca.length; i++) { // Split cookies by name
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+              c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+              return c.substring(name.length, c.length);
+            }
+          }
+          return ""; // Returns cookie
+        };
+        /* Changes login buttons depending on if user is logged in or not; Coding reference from Rianne */
+        var username = getCookie('username'); // Gets user's username
+        console.log(username); // Write it in console
+        if (username != "") { // If user is logged in (username not undefined) login button will change to "logout <username>""
+          document.write(`<a href="./logout"><span class="glyphicon glyphicon-user"></span>Logout ${username}</a>`);
+        } else { // If the user is not logged in (username undefined) will display as login button
+          document.write(`<a href="./login"><span class="glyphicon glyphicon-user"></span>Login</a>`);
+        }
+      </script>
+    </ul>
     </div>
   </div>
 </nav>

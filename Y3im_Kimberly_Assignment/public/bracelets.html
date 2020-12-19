@@ -1,0 +1,210 @@
+<!---Kimberly Yim's Assignment 3: Bracelet's page-->
+<!---Used assignment 1 examples, lab 12, Lab 13, Lab 15 SmartPhoneProducts3, and w3schools' bootstrap online store template-->
+<!--Images of products are from enroutejewelry.com-->
+
+<script src="./product_data.js" type="text/javascript"> </script>
+<script> var product = 'Bracelets'; </script>
+
+<script>
+  /* Function that checks for invalid data entries; From lab 12 */
+  function isNonNegInt(q, return_errors = false) {
+    errors = []; // Assumes there are no errors
+    if (q == '') q = 0; // Sets blank inputs to 0
+    if (Number(q) != q) errors.push('<font color="red">Not a number!</font>'); // Checks if string is a number value
+    if (q < 0) errors.push('<font color="red">Negative value!</font>'); // Checks if it is non-negative value
+    if (parseInt(q) != q) errors.push('<font color="red">Not an integer!</font>'); // Check that it is an integer
+    return return_errors ? errors : (errors.length == 0);
+  }
+
+  /* Function to check if the data is valid and gives message if there are invalid inputs ; From Lab 13 */
+  function checkQuantityTextbox(theTextbox) {
+    errors = isNonNegInt(theTextbox.value, true);
+    document.getElementById(theTextbox.name + '_message').innerHTML = errprs.join(", ");
+  }
+
+  /* Function that saves items to cart; This and below coding reference are from Alyssa */
+  function saveProduct(i) {
+    var amountProduct = quantity_form[`quantity_textbox${i}`].value;
+    if (isNonNegInt(amountProduct) == true) { //if it has no errrors 
+      sessionStorage[`${product}${i}`] = amountProduct; // Saves product amount as session
+      document.getElementById(`cart${i}`).innerHTML = 'Added to cart!';
+    } else {
+      document.getElementById(`cart${i}`).innerHTML = 'Not added to cart - Please enter valid product amounts'; //tells them it is invalid 
+    };
+    window.location.reload(); // Reloads page
+  };
+
+  /* Retrieves query string */
+  window.onload = function () { //page is loaded before function 
+    let params = (new URL(document.location)).searchParams; //retrieves the query string for the data 
+    if (params.has('purchase_submit_button')) { //checks that quantites are valid
+      errors = false; //assumes no errors 
+      total_qty = 0; //must check if something was selected (>0)
+      for (i = 0; i < products.length; i++) { //this is for every product
+        if (params.has(`quantity_textbox${i}`)) { // check textbox for numbers 
+          qty = params.get(`quantity_textbox${i}`); //get the value for quantity_textbox and makes it sticky 
+          quantity_form[`quantity_textbox${i}`].value = qty; //setting to variable qty 
+          total_qty += qty; // adds the most recent textboxes 
+
+          if (!isNonNegInt(qty)) { //if it was not valid 
+            errors = true;
+            checkQuantityTextbox(quantity_form[`quantity_textbox${i}`]); //returns error message 
+          }
+        }
+      }
+      if (errors) { //responds or redirects to invoice 
+        alert("Please enter valid product amounts");
+      } else if (total_qty == 0) { //must select some products 
+        alert("Please select a product before submitting your purchase order");
+      }
+    }
+  }
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Bracelets | Jewels By Kim</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="products-style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<!--w3schools' online store webpage template-->
+
+<!--Create jumbotron (header on top); w3schools' template-->
+
+  <div class="jumbotron"></div>
+
+  <!--Create navigation bar; w3schools' template-->
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+          <li><a href="index.html">Homepage</a></li>
+          <li><a href="earrings.html">Earrings</a></li>
+          <li><a href="rings.html">Rings</a></li>
+          <li><a href="necklaces.html">Necklaces</a></li>
+          <li class="active"><a href="bracelets.html">Bracelets</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="cart.html"><span class="glyphicon glyphicon-shopping-cart"></span>
+              <script>
+                /* To display number of items in cart if there is any; Coding reference from Alyssa */
+                var cart = sessionStorage.length; // Cart becomes stored as a session
+                if (cart > 0) { // If the item is in the cart is greater than 0, it will display the amount of items in cart in blue color
+                  document.write(`
+                      Shopping Cart <font color="#99ccff">(${cart})</font>`)
+                }
+                else { // If there is nothing in the cart, will just say display shopping cart label
+                  document.write(`Shopping Cart`)
+                };
+              </script>
+            </a></li>
+          <script>
+            /* Function that returns value of a cookie; Ensures security to only allow the user with the cookie to access the page; Coding reference from w3schools - https://www.w3schools.com/js/js_cookies.asp */
+            function getCookie(cname) {
+              var name = cname + "=";
+              var decodedCookie = decodeURIComponent(document.cookie); //decode the cookie
+              var ca = decodedCookie.split(';'); // Split string by ';'
+              for (var i = 0; i < ca.length; i++) { // Split cookies by name
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                  c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                  return c.substring(name.length, c.length);
+                }
+              }
+              return ""; // Returns cookie
+            };
+            /* Changes login buttons depending on if user is logged in or not; Coding reference from Rianne */
+            var username = getCookie('username'); // Gets user's username
+            console.log(username); // Write it in console
+            if (username != "") { // If user is logged in (username not undefined) login button will change to "logout <username>""
+              document.write(`<a href="./logout"><span class="glyphicon glyphicon-user"></span>Logout ${username}</a>`);
+            } else { // If the user is not logged in (username undefined) will display as login button
+              document.write(`<a href="./login"><span class="glyphicon glyphicon-user"></span>Login</a>`);
+            }
+          </script>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
+
+
+    <h1>Bracelets</h1>
+
+  <body>
+    <!--Create submission form; Coding reference from assignment 1 screencast-->
+    <form name="quantity_form" action="/process_purchase" method="POST">
+      <!--for loop to display item products; Coding reference from SmartPhoneProducts3 WOD-->
+      <script>
+        for (i = 0; i <= products[product].length; i++) {
+          document.write(`
+  <section class="item">
+  <div class="col-sm-4"> 
+  <div class="panel panel-primary">
+  <div class="panel-heading"><h3>${products[product][i].item}</h3></div>
+  <div class="panel-body"><img src="${products[product][i].image}" style="width:100%" alt="Image"></div>
+  <h2><p>$${products[product][i].price}</p></h2>
+  <ul>
+    <label>Quantity</label>
+  <input type="text" id="textbox${i}" placeholder="0" name="quantity_textbox${i}" onkeyup="checkQuantityTextbox(this);">
+  <span id="quantity_textbox${i}_message"></span>
+  <input type="button" value="Add to Cart" name="addProducts${i}" onclick="saveProduct(${i});">
+  <ul>
+  <span id="cart${i}"></span>
+  </section></div>
+  `);
+          if (typeof sessionStorage[`${product}${i}`] != 'undefined') {
+            quantity_form[`quantity_textbox${i}`].value = sessionStorage[`${product}${i}`];
+          }
+        }
+      </script>
+    </form>
+  
+  <div class="container">
+    <!--Displays account information; Coding reference from Alyssa-->
+    <h1>Account Information</h1>
+  </div>
+  <div class="container"></div>
+    <script>
+      var theUser = getCookie('name');
+      var theUsername = getCookie('username');
+      var email = getCookie('email');
+      var lastVisited = getCookie('last_login_time');
+      if (theUsername != '') { // If user is logged in, display username and last visit 
+        document.write(` 
+            <p>Logged in as: <font color="#629DD1">${theUsername}</font>.   Not you? <a href= "login.html" style=style="color": #629DD1> Log in </a> or <a href= "register.html" style=style="color": #629DD1>register an account</a> <p> 
+            <p>Last log-in: <font color="#629DD1">${lastVisited}</font></p>
+            `)
+      } else { // If user is not logged in, ask them to log in
+        document.write(` 
+            <h3>Not logged in. Please log in <a href="login.html" style="color": #629DD1; font-size: 1em; font-family: inherit;">here</a></h3>
+            `)
+      };
+    </script>
+    </div>
+ </body>
+
+    <!--Footer-->
+  <footer>
+    <b>
+      <p>Jewels By Kim LLC</p>
+    </b>
+  </footer>
+
+</html>

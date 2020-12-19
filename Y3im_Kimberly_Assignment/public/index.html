@@ -1,9 +1,10 @@
-<!--Kimberly Yim's Assignment 2: Homepage-->
+<!--Kimberly Yim's Assignment 3: Homepage-->
 <!--Used w3schools' online store webpage template as template-->
 <!--Images are from enroutejewelry.com & pinterest-->
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <title>Homepage | Jewels By Kim</title>
   <meta charset="utf-8">
@@ -17,53 +18,108 @@
 <!--w3schools' online store webpage template-->
 
 <!--Create jumbotron (header on top); w3schools' template-->
+
 <body>
-<div class="jumbotron"></div>
+  <div class="jumbotron"></div>
 
-<!--Create navigation bar; w3schools' template-->
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
-      </button>
+  <!--Create navigation bar; w3schools' template-->
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="index.html">Homepage</a></li>
+          <li><a href="earrings.html">Earrings</a></li>
+          <li><a href="rings.html">Rings</a></li>
+          <li><a href="necklaces.html">Necklaces</a></li>
+          <li><a href="bracelets.html">Bracelets</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="cart.html"><span class="glyphicon glyphicon-shopping-cart"></span>
+            <script>
+              /* To display number of items in cart if there is any; Coding reference from Alyssa */
+              var cart = sessionStorage.length; // Cart becomes stored as a session
+              if (cart > 0) { // If the item is in the cart is greater than 0, it will display the amount of items in cart in blue color
+                document.write(`
+                    Shopping Cart <font color="#99ccff">(${cart})</font>`)
+              }
+              else { // If there is nothing in the cart, will just say display shopping cart label
+                document.write(`Shopping Cart`)
+              };
+            </script>
+          </a></li>
+        <script>
+          /* Function that returns value of a cookie; Ensures security to only allow the user with the cookie to access the page; Coding reference from w3schools - https://www.w3schools.com/js/js_cookies.asp */
+          function getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie); //decode the cookie
+            var ca = decodedCookie.split(';'); // Split string by ';'
+            for (var i = 0; i < ca.length; i++) { // Split cookies by name
+              var c = ca[i];
+              while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+              }
+              if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+              }
+            }
+            return ""; // Returns cookie
+          }
+          /* Changes login buttons depending on if user is logged in or not; Coding reference from Rianne */
+          var username = getCookie('username'); // Gets user's username
+          console.log(username); // Write it in console
+          if (username != "") { // If user is logged in (username not undefined) login button will change to "logout <username>""
+            document.write(`<a href="./logout"><span class="glyphicon glyphicon-user"></span>Logout ${username}</a>`);
+          } else { // If the user is not logged in (username undefined) will display as login button
+            document.write(`<a href="./login"><span class="glyphicon glyphicon-user"></span>Login</a>`);
+          }
+        </script>
+        </ul>
+      </div>
     </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="index.html">Homepage</a></li>
-        <li><a href="earrings.html">Earrings</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-      <li><a href="login.html"><span class="glyphicon glyphicon-user"></span>Login</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
+  </nav>
 
-<!--Coding reference from w3 schools' how to instructions for side by side images-->
-<!--Display the 3 images side by side <https://www.w3schools.com/howto/howto_css_images_side_by_side.asp>-->
-<div class="row">
-  <div class="column"> 
-    <img src="./images/tryon1.jpg" style="width: 100%" alt="Image"> </div> 
-  <div class="column"> 
-    <img src="./images/flatlay.jpg" style="width: 100%" alt="Image"> </div>  
-  <div class="column">
-    <img src="./images/tryon2.jpg" style="width: 100%" alt="Image"> </div>
+  <!--Coding reference from w3 schools' how to instructions for side by side images-->
+  <!--Display the 3 images side by side <https://www.w3schools.com/howto/howto_css_images_side_by_side.asp>-->
+  <div class="row">
+    <div class="column">
+      <img src="./images/tryon1.jpg" style="width: 100%" alt="Image">
+    </div>
+    <div class="column">
+      <img src="./images/flatlay.jpg" style="width: 100%" alt="Image">
+    </div>
+    <div class="column">
+      <img src="./images/tryon2.jpg" style="width: 100%" alt="Image">
+    </div>
   </div>
 
   <!--Mission statement/welcoming text-->
   <div class="container">
-   <p>
-      <b><h2>Welcome to Jewels By Kim!<h2></b>
-      <h4>We are a Hawaii based jewelry store specializing in handcrafted, ready-to-wear gold and silver plated earrings. Our mission is to make our jewelry affordable without compromising on quality. Jewels By Kim uses plated jewelry that is coated with real 14K gold and silver to produce our pieces. Our jewelry lasts for a lifetime and are elegant pieces that are perfect for every occasion. They make perfect gifts or treats for yourself! There are various designs that you can choose from and we will do our best to get it to you as quickly as possible!</h4></p>
-</div>
+    <p>
+      <b>
+        <h2>Welcome to Jewels By Kim!<h2>
+      </b>
+    <h4>We are a Hawaii based jewelry store specializing in handcrafted, ready-to-wear gold and silver plated jewelry.
+      Our mission is to make our jewelry affordable without compromising on quality. Jewels By Kim uses plated jewelry
+      that is coated with real 14K gold and silver to produce our pieces. Our jewelry lasts for a lifetime and are
+      elegant pieces that are perfect for every occasion. They make perfect gifts or treats for yourself! There are
+      various designs that you can choose from and we will do our best to get it to you as quickly as possible!</h4>
+    </p>
+  </div>
 
-<!--Footer-->
-<footer>
-  <b><p>Jewels By Kim LLC</p></b>
-</footer>
+  <!--Footer-->
+  <footer>
+    <b>
+      <p>Jewels By Kim LLC</p>
+    </b>
+  </footer>
 
 </body>
+
 </html>

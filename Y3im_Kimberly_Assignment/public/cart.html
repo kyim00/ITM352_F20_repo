@@ -1,0 +1,259 @@
+<!--Kimberly Yim's Assignment 3: Cart page-->
+<!--Used invoice4 WOD & lab 12 as reference-->
+
+<!--Acquire product information from product.js-->
+<script src="./product_data.js" type="text/javascript"> </script>
+
+<script>
+  /* Functions to set up the shopping cart session; Coding reference from Alyssa, w3schools - https://www.w3schools.com/jsref/met_his_go.asp , stackoverflow - https://stackoverflow.com/questions/41403139/quantity-and-remove-item-in-shopping-cart , and smashingmagazine - https://www.smashingmagazine.com/2019/08/shopping-cart-html5-web-storage/ */
+  var cart = sessionStorage; // Create session storage for the shopping cart
+  var quantities = []; // Creates empty quantities variable
+  /* if (cart.length == 0) { // If the shopping cart is empty, send user back to their previous page
+        window.history.go(-1) // Makes user go back a page
+        alert('The shopping cart is empty. Please add some items to your cart to make a purchase.'); // Sends user a window alert to add items
+    }; 
+    */
+
+  /* Function that returns value of a cookie; Ensures security to only allow the user with the cookie to access the page; Coding reference from w3schools - https://www.w3schools.com/js/js_cookies.asp & Rianne */
+  function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie); //decode the cookie
+    var ca = decodedCookie.split(';'); // Split string by ';'
+    for (var i = 0; i < ca.length; i++) { // Split cookies by name
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return ""; // Returns cookie
+  }
+  var username = getCookie('username');
+  console.log(username);
+  if (username != "") { // if username is not undefined, continue
+  } else { // If username is undefined, send window alert to ask them to login and redirect to login page
+    alert(`Please login to access your cart!`); 
+    window.location.href = './login.html';
+  }
+
+  /* Function to add & remove items from the cart; Coding reference from Alyssa */
+  /* Function to increase quantity by 1 in cart */
+  function addItem(theProduct, theIndex) {
+    var thisRowQty = parseInt(sessionStorage.getItem(`${theProduct}${theIndex}`));
+    thisRowQty += 1; // Increases quantity by 1
+    sessionStorage.setItem(`${theProduct}${theIndex}`, thisRowQty); // New value gets stored in session
+    window.location.reload(); // Reloads page to reflect change in quantity
+  };
+  /* Function to decrease quantity by 1 in cart */
+  function removeItem(theProduct, theIndex) {
+    var thisRowQty = parseInt(sessionStorage.getItem(`${theProduct}${theIndex}`));
+    if (thisRowQty > 0) {
+      thisRowQty -= 1; // Decreases quantity by 1
+      sessionStorage.setItem(`${theProduct}${theIndex}`, thisRowQty); // New value gets stored in session
+      window.location.reload(); // Reloads page to reflect change in quantity
+    }
+  };
+
+  /* Function that makes sures the user is logged in and there is valid data in the shopping cart to create the invoice; Coding reference from Alyssa */
+  function checkCart() {
+    if (cart.length == 0) { // If the cart's size is 0, reload the page
+      window.location.reload();
+    } else if (theUsername == '') { // If they have not logged in yet, send an alert message to notify them to login
+      alert(`Please log in before viewing your cart!`);
+      window.location.href = './login.html';
+    } else { // If they are logged in and username exists, fetch their cart data create the invoice
+      fetch("/generateInvoice?cartData=" + JSON.stringify(cart) + "&cookieData=" + JSON.stringify(document.cookie),
+        {
+          method: "POST"
+        }).then(function (res) {
+          return res.text();
+        }).then(function (data) {
+          document.write(data); // Display shopping cart data
+        })
+    }
+  }
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Shopping Cart | Jewels By Kim</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="products-style.css">
+  <link rel="stylesheet" href="tables.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<style>
+  /* Make body of page white */
+  body {
+    background-color: white;
+  }
+
+  /* To position footer at the bottom; Coding reference from freeCodeCamp <https://www.freecodecamp.org/news/how-to-keep-your-footer-where-it-belongs-59c6aa05c59c/> */
+  footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+</style>
+
+<!--w3schools' online store webpage template-->
+<!--Create jumbotron (header on top); w3schools' template-->
+
+<body>
+  <div class="jumbotron"></div>
+
+  <!--Create navigation bar; w3schools' template-->
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+          <li><a href="index.html">Homepage</a></li>
+          <li><a href="earrings.html">Earrings</a></li>
+          <li><a href="rings.html">Rings</a></li>
+          <li><a href="necklaces.html">Necklaces</a></li>
+          <li><a href="bracelets.html">Bracelets</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="active"><a href="cart.html"><span class="glyphicon glyphicon-shopping-cart"></span> Shopping Cart</a></li>
+          <li><a href="login.html"><span class="glyphicon glyphicon-user"></span>Login</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!--Creates table; From Invoice4 WOD-->
+    <table class="purchases" border="2">
+      <tbody>
+        <tr>
+          <th style="text-align: center;" width="35%">Item</th>
+          <th style="text-align: center;" width="35%">Product Image</th>
+          <th style="text-align: center;" width="10%">Quantity</th>
+          <th style="text-align: center;" width="10%">Price</th>
+          <th style="text-align: center;" width="10%">Extended price</th>
+        </tr>
+        <script>
+          /* Generates the quantities selected by customer into the invoice table; Coding reference from Invoice4 WOD, Alyssa, and Prof Port's A3 examples 2 & 3 */
+          subtotal = 0; // subtotal begins at $0
+          for (product in products) {
+            for (i = 0; i < products[product].length; i++) {
+              // Product row
+              qty = cart.getItem(`${product}${i}`); // sets qty variable
+              if (qty > 0) { // Compute prices if quantity is greater than 0 
+                // Product row
+                extended_price = qty * products[product][i].price
+                subtotal += extended_price;
+                document.write(`
+                    <tr>
+                        <td style= "text-align: left" width="35%">${products[product][i].item}</td>
+                        <td style= "text-align: left" width="35%">${products[product][i].image}</td>
+                        <td width="10%">${qty}
+                            <input type="button" class="button alt" value="+1" onclick="addItem('${product}',${i});">
+                            <input type="button" class="button alt" value="-1" onclick="removeItem('${product}',${i});"></td>
+                        <td width="10%">\$${products[product][i].price}</td>
+                        <td  width="10%">\$${extended_price.toFixed(2)}</td>
+                    </tr>
+                `);
+              }
+            };
+          }
+          /* Following codes below are modified from invoice4 WOD */
+          // Compute tax
+          var tax_rate = 0.04712;
+          var tax = tax_rate * subtotal;
+
+          // Compute shipping
+          if (subtotal <= 149.99) {
+            shipping = 3;
+          }
+          else if (subtotal <= 399.99) {
+            shipping = 5;
+          }
+          else {
+            shipping = 0.05 * subtotal; // 5% of total
+          }
+
+          // Compute total
+          var total = subtotal + tax + shipping;
+        </script>
+
+        <!--Calculates and generates the subtotals, tax, shipping, and total into the invoice table; From Invoice4 WOD-->
+        <tr>
+          <td colspan="5" width="100%">&nbsp;</td>
+        </tr>
+        <tr>
+          <td style="text-align: center;" colspan="4" width="67%">Sub-total</td>
+          <td width="54%">$
+            <script>document.write(subtotal.toFixed(2));</script>
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: center;" colspan="4" width="67%"><span>Tax @
+            <script>document.write(100 * tax_rate);</script>
+            </span>
+          </td>
+          <td width="54%">$
+            <script>document.write(tax.toFixed(2));</script>
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: center;" colspan="4" width="67%">Shipping</span></td>
+          <td width="54%">$
+            <script>document.write(shipping.toFixed(2));</script>
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: center;" colspan="4" width="67%"><strong>Total</strong></td>
+          <td width="54%"><strong>$
+              <script>document.write(total.toFixed(2));</script>
+            </strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+<br>
+
+<!--Create button to complete the purchase and go to invoice-->
+<div class="white_container">
+  <input type="submit" value="Complete purchase" name="purchase_submit_button" class="button" onclick="checkCart()">
+</div>
+
+<div class="white_container">
+  <!--Displays shipping policy on bottom of invoice table; Modified from Invoice4 WOD-->
+  <b>
+    <h2>SHIPPING POLICY:</h2>
+    <h4>
+      Subtotals $0 - $149.99: $3 shipping
+      <br>
+      Subtotals $30 - $399.99: $5 shipping
+      <br>
+      Subtotals $400.00+: 5% of the subtotal amount
+    </h4>
+  </b>
+</div>
+
+
+<!--Footer-->
+<footer>
+  <b>
+    <p>Jewels By Kim LLC</p>
+  </b>
+</footer>
+
+</html>
