@@ -1,5 +1,5 @@
 /* Kimberly Yim's Assignment 3: Server*/
-/* Most are from lab 13 & lab 14 */
+/* Most are from lab 13, lab 14, lab 15, and Alyssa */
 
 /* Define variables; From lab13 */
 var express = require('express'); // loads express module
@@ -8,7 +8,8 @@ var myParser = require("body-parser"); // loads body parser module
 var data = require('./public/product_data.js'); // Data becomes the products from the product_data.js file
 const queryString = require("querystring"); // Defines query string
 var products = data.products; // products will be defined as the products from the product_data.js file
-const nodemailer = require("nodemailer"); // Uses the node mailer module 
+var nodemailer = require("nodemailer"); // Uses the node mailer module 
+var path = require('path');
 
 /* Defining variables for the user_data.json; From lab 14 */
 var fs = require('fs') // loads fs modules
@@ -46,126 +47,147 @@ if (fs.existsSync(userdata_file)) { // checks if file exists before reading
     console.log("Sorry, we can't find" + userdata_file); // Message if the userdata does not exist
 }
 
+/* Processes login; Modified from our class's lab 14, Rick Kazman's Lab 14 example (ProcessLogin.js) & Lab 15 (Ex3.js), and Alyssa */
+app.post("/check_login", function (request, response) {
+    errs = {}; // Assume there are no errors at first
+    var login_username = request.body["username"]; // Set var login_username to the username 
+    var user_info = userdata[login_username]; // Sets user_info to username
+    var login_password = request.body["password"]; // Sets login_password to password
 
-/* Processes login; Modified from our class's lab 14, Rick Kazman's Lab 14 example (ProcessLogin.js) & Lab 15 (Ex3.js), and Rianne */
-app.post("/process_login", function (request, response) {
-    // First save the request and, in particular, the username and password
-    POST = request.body;
-    user_name_from_form = POST["username"].toLowerCase(); // makes it not case sensitive
-    password_from_form = POST["password"];
-    // console.log("User name from form=" + user_name_from_form);
-    error = {};
-    error.password = "";
-    error.username = "";
-    // Now check to see if the username and password match what is on file
-    if (userdata[user_name_from_form] != undefined) {
-        password_on_file = user_data[user_name_from_form].password;
-        if (password_from_form == password_on_file) {
-            // Good login
-            request.session.username = user_name_from_form;
-            if (typeof request.session.last_login != 'undefined') {
-                var msg = `You last logged in at ${request.session.last_login}`;
-                var now = new Date();
-            } else {
-                var msg = '';
-                var now = 'first visit!';
-            }
-            request.session.last_login = now;
-            // send the user a cookie with the username to show that they're logged in
-            response.cookie('username', user_name_from_form);
-            // response.cookie('email', user_data[user_name_from_form].email);
-            response.redirect('./index.html');
-            return;
-            // REFERENCED FROM DANIEL PORT, OFFICE HOURS APPOINTMENT 12/14
-        } else { // oops password doesn't match
-            error.password = 'Password does not match';
-        }
-    } else { // oops username doesnt exist
-        error.username = 'Username does not exist';
-    }
-    response.redirect('./login.html?' + queryString.stringify(request.query)); // Redirects back to login page if password or username is incorrect
+    if (typeof userdata[login_username] == 'undefined' || userdata[login_username] == '') { // If the username is defined
+        errs.username = '<font color="red">Incorrect Username</font>'; // If invalid usersername cannot be found, will send message that it's an incorrect username
+        errs.password = '<font color="red">Incorrect Password</font>'; // If invalid usersername cannot be found, password cannot be found either, will send message that it's an incorrect password
+    } else if (user_info['password'] != login_password) { // If their password that they entered is not defined
+        errs.username = ''; // First, remove error
+        errs.password = '<font color="red">Incorrect Password</font>'; // Notify them that their password is still icnorrect
+    } else { // Clear errors
+        delete errs.username; // Remove error
+        delete errs.password; // Remove error
+    };
+
+    if (Object.keys(errs).length == 0) { // If there are no errors
+        session.username = login_username; // Add logged in username to session
+        var theDate = Date.now(); // Set time variable
+        session.last_login_time = theDate; // Save time of login to session
+        var login_name = user_info['name'];
+        var user_email = user_info['email']; //sets a variable
+        response.cookie('username', login_username) // Adds username to a cookie
+        response.cookie('name', login_name) // Adds name to a cookie
+        response.cookie('email', user_email); /// Adds email to a cookie
+        response.json({}); // Parses into a json object 
+    } else {
+        response.json(errs); //if login is unsuccessful/invalid, shows errors 
+    };
 });
+
+/* Processes login */
+app.get("/login", function (request, response) {
+        var login_username = request.body["username"]; // Set var login_username to the username 
+        if (typeof userdata[login_username] == 'undefined' || userdata[login_username] == '') { // If the username is defined
+        response.redirect('./login.html'); // Sends user back to homepage
+        }
+        });
 
 /* Processes logout; Coding reference from Rianne */
 app.get("/logout", function (request, response) {
-    response.clearCookie('username'); // Clears cookies to enable logout
+    response.clearCookie('username'); // Clears cookie
+    request.session.destroy(); // Destroys session
     response.redirect('./index.html'); // Sends user back to homepage
 });
 
 
-/* Processes registration; From our class's lab 14, Rick Kazman's Lab 14 example (ProcessLogin.js), Daphne and Alyssa from ITM 352; Reference for patterns w3school <https://www.w3schools.com/tags/att_input_pattern.asp> */
-app.post("/process_registration", function (request, response) {
-    var errors = [];
-    console.log(request.body);
-    LowerCase_username = request.body.username.toLowerCase(); // Sets username to lowercase
-    /* Full name validation */
-    if (/^[A-Za-z]+$/.test(request.body.name)) { // Only allows the usage of letters when inputting full name into the form
-    } else {
-        errors.push('Please only use letters for full name');
-    }
-    if (request.body.name == "") { // Validating that it is a full name
-        errors.push('Invalid full name');
-    }
-    if ((request.body.fullname.length > 30)) {
-        errors.push('Full name is too long; Maximum is 30 characters')
-    }
+/* Processes registration; Ensures security since invoice is inaccessible from the URL and is sent directly to buyer's email; From our class's lab 14, Rick Kazman's Lab 14 example (ProcessLogin.js), Alyssa from ITM 352; Reference for patterns w3school <https://www.w3schools.com/tags/att_input_pattern.asp> */
+app.post("/register_user", function (request, response) {
+    errs = {}; // Assume no errors at first
+    var registered_username = request.body["username"]; // Set registered_username to username entered in registration form
+    var registered_name = request.body["name"]; // Set registered_name to name entered in registration form
 
     /* Username validation */
-    if (typeof users_reg_data[LowerCase_username] != 'undefined') { // If username is taken (already in user_data.json), notify user
-        errors.push("Username is already taken");
-    }
-    if (/^[0-9a-zA-Z]+$/.test(request.body.LowerCase_username)) { // Only allows the usage of letters and numbers when inputting username into the form
+    if (registered_username == '') { // Must enter a username
+        errs.username = '<font color="red">Please Enter A Username</font>'; // Error message there's no username
+    } else if (registered_username.length < 4 || registered_username.length > 10) { // Username must be in between 4 to 10 characters
+        errs.username = '<font color="red">Username Must Be Between 4 - 10 Characters</font>'; // Error message if it does not follow this
+    } else if (isAlphaNumeric(registered_username) == false) { // Username must only contain numbers and letters
+        errs.username = '<font color="red">Please Only Use Alphanumeric Characters</font>'; // Error message if it does not follow this
+    } else if (typeof userdata[registered_username] != "undefined") { // Will check is username is taken or not
+        errs.username = '<font color="red">Username Taken</font>'; // Error message if username is already taken
     } else {
-        errors.push('Please only use letters & numbers for username');
+        errs.username = null;
     }
-    if ((request.body.username.length > 10)) { // Notifies user if username is too long
-        errors.push('Username is too long; Maximum is 10 characters');
-    }
-    if ((request.body.username.length < 4)) { // Notifies user if username is too short
-        errors.push('Username is too short; Minimum is 4 characters');
+
+    /* Name validation */
+    if (registered_name.length > 30) { // Name must be less than 30 characters
+        errs.name = '<font color="red">Cannot Be Longer Than 30 Characters</font>'; // Error message if it does not follow this
+    } else {
+        errs.name = null;
     }
 
     /* Password validation */
-    if (request.body.password.length < 6) { // Notifies user if password is too short
-        errors.push('Password is too short; Minimum is 6 characters')
-    }
-    if (request.body.password !== request.body.repeat_password) { // Notifies user if password and their repeated passwords do not match up
-        errors.push('Passwords do not match');
+    if (request.body.password.length == 0) { // User must make a password
+        errs.password = '<font color="red">Please Enter A Password</font>'; // Error message there's no password
+    } else if (request.body.password.length <= 6) { //Password must contain at least 6 characters 
+        errs.password = '<font color="red">Password Must Be At Least 6 Characters</font>'; // Error message if it does not follow this
+    } else if (request["body"]["password"] != request["body"]["repeat_password"]) {// Checks if the repeated password is the same
+        errs.password = null;
+        errs.repeat_password = '<font color="red">Passwords Do Not Match</font>'; // Error message if password do not match
+    } else {
+        delete errs.password;
+        errs.repeat_password = null;
     }
 
     /* Email validation */
-    if ((/[a-z0-9._]+@[a-z0-9]+\.[a-z]+/).test(request.body.email)) { // only allows letters and numbers for the user address and letters for the domain name
+    if (request.body.email == '') { // User must include a email address
+        errs.email = '<font color="red">Please Enter An Email Address</font>'; // Error message there's no email
+    } else if (ValidateEmail(request.body.email) == false) {  // Emails must be a valid email address
+        errs.email = '<font color="red">Please Enter A Valid Email Address</font>'; // Error message if email is invalid
     } else {
-        errors.push('Please enter a valid email');
+        errs.email = null;
     }
 
-    /* If there are no errors, save the user's registration to user_data.json */
-    if (errors.length == 0) {
-        console.log(errors)
-        var username = request.body.username // Allows variable username to get the username data from the body
-        /* The following will get inputted to the user_data.json */
-        users_reg_data[username] = {}; // Create blank object to put our info inside; An empty "bag"
-        users_reg_data[username].name = request.body.name; // Add name to object
-        users_reg_data[username].username = request.body.username // Add username to object
-        users_reg_data[username].password = request.body.password; // Add password to object
-        users_reg_data[username].email = request.body.email; // Add email to object
-        fs.writeFileSync(userdata, JSON.stringify(users_reg_data)); // Gets written into user_data.json as a string
-        response.redirect('./invoice.html?' + queryString.stringify(request.query)); // Redirects to invoice if all is ok
+    let result = !Object.values(errs).every(o => o === null);
+    console.log(result);
+
+    if (result == false) { // When all inputs are valid and there are no errors, below will get inputed into the user_data.json
+        userdata[registered_username] = {}; // Creates blank object to put userdata inside
+        userdata[registered_username].name = request.body.name;  // Add name to userdata
+        userdata[registered_username].password = request.body.password; // Add password to userdata
+        userdata[registered_username].email = request.body.email; // Add email to userdata
+        fs.writeFileSync(user_info_file, JSON.stringify(userdata, null, 2)); // Convert userdata to a string since writeFileSync can only read strings
+        // Below gets saved as coookies
+        response.cookie("username", registered_username);
+        response.cookie("name", registered_name);
+        response.cookie("email", request.body.email);
+        response.json({});
     } else {
-        /* If there are errors, send the user back to the registration page */
-        console.log(errors)
-        /* Make login values sticky */
-        request.query.name = request.body.name;
-        request.query.username = request.body.username;
-        request.query.password = request.body.password;
-        request.query.repeat_password = request.body.repeat_password;
-        request.query.email = request.body.email;
-        response.redirect('/register.html?' + queryString.stringify(request.query)); // Redirect to registration page if there are errors
+        response.json(errs);
     }
 });
 
-/* Function to generate invoice; Coding reference from Alyssa */
+/* Function for username letters & number validation; Coding reference from Alyssa & w3resource - https://www.w3resource.com/javascript/form/letters-numbers-field.php */
+function isAlphaNumeric(input) {
+    var letterNumber = /^[0-9a-zA-Z]+$/; // Pattern that only allows letters and numbers in the username
+    if (input.match(letterNumber)) { // Input must match the above requirements to be considered valid
+        return true; // Returns true if matches
+    }
+    else {
+        return false; // Returns false if invalid
+    }
+}
+
+/* Function for email validation; Coding reference from Alyssa & w3resource - https://www.w3resource.com/javascript/form/javascript-sample-registration-form-validation.php */
+function ValidateEmail(inputText) {
+    var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // Pattern that only allows emails to be consideered as valid if they contain letter, numbers, "_", or "." 
+    if (inputText.match(mailformat)) { // Input must match the above requirements to be considered valid
+        return true; // Returns true if matches
+    }
+    else {
+        return false; // Returns false if invalid
+    }
+}
+
+/* Function to generate invoice; Coding reference from Alyssa & Rianne */
 app.post("/generateInvoice", function (request, response) {
+    var user_email = userdata[request.cookies.username].email; // setting variables
     cart = JSON.parse(request.query['cartData']); //this parses the cart 
     cookie = JSON.parse(request.query['cookieData']); //this parses the cookies 
     var theCookie = cookie.split(';');
@@ -243,7 +265,9 @@ app.post("/generateInvoice", function (request, response) {
 
   <!--Message to thank user for purchase-->
   <div class="container">
-    <h2>Thank you for your purchase! Your order was received! </h2>
+    <h2>Thank you for your purchase, <font color="#0033cc">${request.cookies.username}</font>! Your order was received! </h2> 
+    <br>
+    <h2><a href='./logout'>Please logout</a></h2>
   </div>
 
     <!--Creates table; From Invoice4 WOD-->
@@ -258,20 +282,20 @@ app.post("/generateInvoice", function (request, response) {
         </tr>`;
     /* End of first string */
 
-    /* Generates the quantities selected by customer into the invoice table; Coding reference from Invoice4 WOD, Alyssa, and Prof Port's A3 examples 2 & 3 */
+    /* Generates the quantities selected by customer into the invoice table; Coding reference from Invoice4 WOD, Alyssa, and Prof Port's A3 examples 2 & 3 */ 
     subtotal = 0; // subtotal begins at $0
     for (product in products) {
         for (i = 0; i < products[product].length; i++) {
             // Product row
-            qty = cart(`${product}${i}`); // sets qty variable
+            qty = cart[`${product}${i}`] // sets qty variable
             if (qty > 0) { // Compute prices if quantity is greater than 0 
                 // Product row
                 extended_price = qty * products[product][i].price
                 subtotal += extended_price;
                 str += `
                 <tr>
-                        <td style= "text-align: left" width="35%">${products[product][i].item}</td>
-                        <td style= "text-align: left" width="35%">${products[product][i].image}</td>
+                        <td style= "text-align: left" width="35%">${products[product][i].name}</td>
+                        <td style= "text-align: left" width="35%"><img src=${products[product][i].image} style="width:50%"></td>
                         <td width="10%">${qty}</td>
                         <td width="10%">\$${products[product][i].price}</td>
                         <td  width="10%">\$${extended_price.toFixed(2)}</td>
@@ -282,7 +306,7 @@ app.post("/generateInvoice", function (request, response) {
     }
     /* Following codes below are modified from invoice4 WOD */
     // Compute tax
-    var tax_rate = 0.04712;
+    var tax_rate = 0.0471;
     var tax = tax_rate * subtotal;
 
     // Compute shipping
@@ -327,9 +351,9 @@ app.post("/generateInvoice", function (request, response) {
      `;
     /* End of second string */
 
-    //this code was made with help from assignment 3 example 
-    var transporter = nodemailer.createTransport({ //create the transporter variable
-        host: 'mail.hawaii.edu', //note on itmvm webserver have to use the mail from hawaii.edu
+    // From Prof Port's Assignment 3 examples - example 3
+    var transporter = nodemailer.createTransport({ // Create the transporter variable
+        host: 'mail.hawaii.edu', // On itmvm webserver, only works w hawaii.edu emails
         port: 25,
         secure: false, //use tls
         tls: {
@@ -339,7 +363,7 @@ app.post("/generateInvoice", function (request, response) {
     });
     var mailOptions = {
         from: 'kcyim@gmail.com', // Sends the invoice from my email
-        to: email, // Sends the email to the cookie from the account that was logged in
+        to: user_email, // Sends the email to the cookie from the account that was logged in
         subject: 'Invoice',
         html: str // Allows string to return to html
     };
@@ -354,30 +378,29 @@ app.post("/generateInvoice", function (request, response) {
     response.send(str); // String will be displayed in browser
 });
 
-/* Processes purchase; From lab 13 */
+/* Processes purchase; From lab 13 & Alyssa */
 app.post("/process_purchase", function (request, response) {
     let POST = request.body; // data is in the body 
-    if (typeof POST['addProducts${i}'] != 'undefined') { //if the POST request is defined
-        var validAmount = true; //make the variable validAmount true 
-        var amount = false; //make the variable amount equal to false 
-        for (i = 0; i < `${(products_array[`type`][i])} `.length; i++) { //for any product
-            qty = POST[`quantity_textbox${i} `]; //sets the variable qty to quantity textbox 
-            if (qty > 0) {
-                amount = true; //if greater than 0 it is goog 
+    if (typeof POST['addProducts${i}'] != 'undefined') { // If the POST request is defined
+        var validAmount = true; // Defines validAmount as true
+        var amount = false; // Defines amount as false
+        for (i = 0; i < `${(products_array[`type`][i])} `.length; i++) { // For loop that checks the quantity entered
+            qty = POST[`quantity_textbox${i} `]; // Sets the variable qty to quantity textbox 
+            if (qty > 0) { // Quantity entered is valid if it's an integer greater than 0
+                amount = true;
             }
-            if (isNonNegInt(qty) == false) { //if isNonNegInt is false then it is not a number
-                validAmount = false; // it is not a valid amount
+            if (isNonNegInt(qty) == false) { // If isNonNegInt is false then the quantity entered was invalid
+                validAmount = false;
             }
         }
-        const stringified = queryString.stringify(POST); //converts data from POST to JSON string 
+        const stringified = queryString.stringify(POST); //Converts data from POST to JSON string 
         if (validAmount && amount) { //if it is a quanity and greater than 0
-            response.redirect("./login.html?" + stringified); // redirect the page to login page if not logged in 
-            return; //stops function
+            response.redirect("./login.html?" + stringified); // Redirects to login if the query string is correct and they are not logged in yet
+            return; // Stops function
         }
-        else { response.redirect("./index.html?" + stringified) } //if there is invalid sends back to home page with the string 
+        else { response.redirect("./index.html?" + stringified) } // If customer inputs invalid quantities, will redirect back to the homepage
     }
 });
-
 
 /* This function returns true if q is a non-negative integer. If returnErrors=true, it will return the array of reasons it is not a non-negative integer; From Lab 13 */
 function isNonNegInt(q, returnErrors = false) {

@@ -1,6 +1,9 @@
 /* Kimberly Yim's CSS for Tables */
 .purchases {
     font-family: 'Lucida Sans Unicode', "Lucida Grande", sans-serif;
+    text-align: center;
+    justify-content: space-evenly;
+    font-size: large;
 }
 
 table th {
@@ -11,4 +14,8 @@ table th {
 
 tr:nth-child(even) {
     background-color: #D9E4EB;
+}
+
+td {
+    text-align: center;
 }

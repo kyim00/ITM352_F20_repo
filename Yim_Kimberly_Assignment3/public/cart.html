@@ -6,13 +6,12 @@
 
 <script>
   /* Functions to set up the shopping cart session; Coding reference from Alyssa, w3schools - https://www.w3schools.com/jsref/met_his_go.asp , stackoverflow - https://stackoverflow.com/questions/41403139/quantity-and-remove-item-in-shopping-cart , and smashingmagazine - https://www.smashingmagazine.com/2019/08/shopping-cart-html5-web-storage/ */
-  var cart = sessionStorage; // Create session storage for the shopping cart
+  var cart = sessionStorage; // Create session storage for the shopping cart
   var quantities = []; // Creates empty quantities variable
-  /* if (cart.length == 0) { // If the shopping cart is empty, send user back to their previous page
-        window.history.go(-1) // Makes user go back a page
-        alert('The shopping cart is empty. Please add some items to your cart to make a purchase.'); // Sends user a window alert to add items
-    }; 
-    */
+  if (cart.length == 0) { // If the shopping cart is empty, send user back to their previous page
+    history.go(-1) // Makes user go back a page
+    alert('The shopping cart is empty. Please add some items to your cart to make a purchase.'); // Sends user a window alert to add items
+  };
 
   /* Function that returns value of a cookie; Ensures security to only allow the user with the cookie to access the page; Coding reference from w3schools - https://www.w3schools.com/js/js_cookies.asp & Rianne */
   function getCookie(cname) {
@@ -30,13 +29,6 @@
     }
     return ""; // Returns cookie
   }
-  var username = getCookie('username');
-  console.log(username);
-  if (username != "") { // if username is not undefined, continue
-  } else { // If username is undefined, send window alert to ask them to login and redirect to login page
-    alert(`Please login to access your cart!`); 
-    window.location.href = './login.html';
-  }
 
   /* Function to add & remove items from the cart; Coding reference from Alyssa */
   /* Function to increase quantity by 1 in cart */
@@ -53,6 +45,19 @@
       thisRowQty -= 1; // Decreases quantity by 1
       sessionStorage.setItem(`${theProduct}${theIndex}`, thisRowQty); // New value gets stored in session
       window.location.reload(); // Reloads page to reflect change in quantity
+    }
+  };
+
+  /* Function to allow user to go back pages; Coding reference from stockoverflow - https://stackoverflow.com/questions/25639290/windows-history-back-location-reload-jquery/35547598 */
+  function GoBackWithRefresh(event) { //function to go to previous page
+    var past = document.referrer; // Sets variable past as the document.referrer which is the previous page to your current page
+    var pastPage = past.split('/').pop(); // In the past page's query string, whatever is after '/' set that to the variable of pastPage
+    if (pastPage != 'login.html' && pastPage != 'register.html') { // If the previous page is not the login nor the registration, then go back to the previous page
+      window.location = past;
+    } else if (pastPage == 'login.html' && pastPage == 'register.html') { // If the previous page is the login or the registration, go back two pages (will skip going to the login and registration pages)
+      window.history.go(-2);
+    } else {
+      window.location.href = './index.html'; // Otherwise just redirect back to homepage
     }
   };
 
@@ -95,13 +100,6 @@
   body {
     background-color: white;
   }
-
-  /* To position footer at the bottom; Coding reference from freeCodeCamp <https://www.freecodecamp.org/news/how-to-keep-your-footer-where-it-belongs-59c6aa05c59c/> */
-  footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-  }
 </style>
 
 <!--w3schools' online store webpage template-->
@@ -129,12 +127,39 @@
           <li><a href="bracelets.html">Bracelets</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li class="active"><a href="cart.html"><span class="glyphicon glyphicon-shopping-cart"></span> Shopping Cart</a></li>
+          <li class="active"><a href="cart.html"><span class="glyphicon glyphicon-shopping-cart"></span> Shopping
+              Cart</a></li>
           <li><a href="login.html"><span class="glyphicon glyphicon-user"></span>Login</a></li>
         </ul>
       </div>
     </div>
   </nav>
+
+  <div class="container">
+    <script>
+      /* Thank user for their interest in purchasing; Coding reference from Alyssa */
+      var theUser = getCookie('name'); // Cookie gets user's name
+      var theUsername = getCookie('username'); // Cookie gets username
+      if (theUsername != '') { // If there is a username, output below
+        document.write(`
+                <p align="center">Hello, ${theUsername}! Please review your shopping cart order below! </p>
+                <p align="center"> Not ${theUsername}? <a href="login.html">Please log in here</a></p><br />
+            `)
+      } else { // If there is no existing cookie, ask user to log in
+        document.write(`
+                <p align="center">You are not logged in: Click <a href="login.html">here</a> to log in</p>
+            `)
+      };
+    </script>
+  </div>
+
+  <div class="container">
+    <!--Button removes all items and reloads page; From rianne through stackoverflow - https://stackoverflow.com/questions/53106992/remove-all-cart-items-from-a-button-on-a-custom-page-using-ajax-->
+    <!---->
+    <td align="center"><input type="button" class="button2" value="Clear All Quantities"
+      onclick="cart.clear(); window.location.reload();">
+</td>
+  </div>
 
   <div class="container">
     <!--Creates table; From Invoice4 WOD-->
@@ -160,12 +185,15 @@
                 subtotal += extended_price;
                 document.write(`
                     <tr>
-                        <td style= "text-align: left" width="35%">${products[product][i].item}</td>
-                        <td style= "text-align: left" width="35%">${products[product][i].image}</td>
+                        <td style= "text-align: left" width="35%"><b>${products[product][i].name}</b></td>
+                        <td style= "text-align: left" width="35%"><img src=${products[product][i].image} style="width:50%"></td>
                         <td width="10%">${qty}
-                            <input type="button" class="button alt" value="+1" onclick="addItem('${product}',${i});">
-                            <input type="button" class="button alt" value="-1" onclick="removeItem('${product}',${i});"></td>
-                        <td width="10%">\$${products[product][i].price}</td>
+                          <ul>
+                            <br>
+                            <input type="button" class="button3" value="+1" onclick="addItem('${product}',${i});">
+                            <input type="button" class="button3" value="-1" onclick="removeItem('${product}',${i});"></td>
+                           </ul> 
+                        <td width="10%"><strong>\$${products[product][i].price}</strong></td>
                         <td  width="10%">\$${extended_price.toFixed(2)}</td>
                     </tr>
                 `);
@@ -174,7 +202,7 @@
           }
           /* Following codes below are modified from invoice4 WOD */
           // Compute tax
-          var tax_rate = 0.04712;
+          var tax_rate = 0.0471;
           var tax = tax_rate * subtotal;
 
           // Compute shipping
@@ -203,8 +231,8 @@
           </td>
         </tr>
         <tr>
-          <td style="text-align: center;" colspan="4" width="67%"><span>Tax @
-            <script>document.write(100 * tax_rate);</script>
+          <td style="text-align: center;" colspan="4" width="67%"><span>Tax at
+              <script>document.write(100 * tax_rate);</script>
             </span>
           </td>
           <td width="54%">$
@@ -229,8 +257,12 @@
 </body>
 <br>
 
-<!--Create button to complete the purchase and go to invoice-->
-<div class="white_container">
+<!--Create buttons to go back or to complete the purchase-->
+<div class="container">
+  <input type="submit" value="Go back! Continue shopping" class="button2" onclick="GoBackWithRefresh()">
+</div>
+<br>
+<div class="container">
   <input type="submit" value="Complete purchase" name="purchase_submit_button" class="button" onclick="checkCart()">
 </div>
 

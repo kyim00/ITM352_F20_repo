@@ -2,18 +2,9 @@
 <!--Used w3schools' online store webpage template as template-->
 <!--Used lab 14 as reference-->
 
-<script>
-  /* Alert for invalid usernames and passwords; Code reference from Alyssa */
-  let params = (new URL(document.location)).searchParams;
-  window.onload = function () {
-    if (params.has('login_error')) { 
-        alert('Invalid username or password entered');
-    }
-  }
-</script>
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <title>Login | Jewels By Kim</title>
   <meta charset="utf-8">
@@ -25,119 +16,195 @@
 </head>
 
 <style>
-/* To position footer at the bottom; Coding reference from freeCodeCamp <https://www.freecodecamp.org/news/how-to-keep-your-footer-where-it-belongs-59c6aa05c59c/> */
-footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-}
+  /* To position footer at the bottom; Coding reference from freeCodeCamp <https://www.freecodecamp.org/news/how-to-keep-your-footer-where-it-belongs-59c6aa05c59c/> */
+  footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
 </style>
 
 <!--w3schools' online store webpage template-->
 
 <!--Create jumbotron (header on top); w3schools' template-->
+
 <body>
-<div class="jumbotron"></div>
+  <div class="jumbotron"></div>
 
-<!--Create navigation bar; w3schools' template-->
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
-      </button>
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav">
-        <li><a href="index.html">Homepage</a></li>
-        <li><a href="earrings.html">Earrings</a></li>
-        <li><a href="rings.html">Rings</a></li>
-        <li><a href="necklaces.html">Necklaces</a></li>
-        <li><a href="bracelets.html">Bracelets</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="cart.html"><span class="glyphicon glyphicon-shopping-cart"></span>
-          <script>
-            /* To display number of items in cart if there is any; Coding reference from Alyssa */
-            var cart = sessionStorage.length; // Cart becomes stored as a session
-            if (cart > 0) { // If the item is in the cart is greater than 0, it will display the amount of items in cart in blue color
-              document.write(`
+  <!--Create navigation bar; w3schools' template-->
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+          <li><a href="index.html">Homepage</a></li>
+          <li><a href="earrings.html">Earrings</a></li>
+          <li><a href="rings.html">Rings</a></li>
+          <li><a href="necklaces.html">Necklaces</a></li>
+          <li><a href="bracelets.html">Bracelets</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="cart.html"><span class="glyphicon glyphicon-shopping-cart"></span>
+              <script>
+                /* To display number of items in cart if there is any; Coding reference from Alyssa */
+                var cart = sessionStorage.length; // Cart becomes stored as a session
+                if (cart > 0) { // If the item is in the cart is greater than 0, it will display the amount of items in cart in blue color
+                  document.write(`
                   Shopping Cart <font color="#99ccff">(${cart})</font>`)
-            }
-            else { // If there is nothing in the cart, will just say display shopping cart label
-              document.write(`Shopping Cart`)
+                }
+                else { // If there is nothing in the cart, will just say display shopping cart label
+                  document.write(`Shopping Cart`)
+                };
+              </script>
+            </a></li>
+          <script>
+            /* Function that returns value of a cookie; Ensures security to only allow the user with the cookie to access the page; Coding reference from w3schools - https://www.w3schools.com/js/js_cookies.asp */
+            function getCookie(cname) {
+              var name = cname + "=";
+              var decodedCookie = decodeURIComponent(document.cookie); //decode the cookie
+              var ca = decodedCookie.split(';'); // Split string by ';'
+              for (var i = 0; i < ca.length; i++) { // Split cookies by name
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                  c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                  return c.substring(name.length, c.length);
+                }
+              }
+              return ""; // Returns cookie
             };
+            /* Changes login buttons depending on if user is logged in or not; Coding reference from Rianne */
+            var username = getCookie('username'); // Gets user's username
+            console.log(username); // Write it in console
+            if (username != "") { // If user is logged in (username not undefined) login button will change to "logout <username>""
+              document.write(`<a href="./logout"><span class="glyphicon glyphicon-user"></span>Logout ${username}</a>`);
+            } else { // If the user is not logged in (username undefined) will display as login button
+              document.write(`<a href="./login"><span class="glyphicon glyphicon-user"></span>Login</a>`);
+            }
           </script>
-        </a></li>
-      <script>
-        /* Function that returns value of a cookie; Ensures security to only allow the user with the cookie to access the page; Coding reference from w3schools - https://www.w3schools.com/js/js_cookies.asp */
-        function getCookie(cname) {
-          var name = cname + "=";
-          var decodedCookie = decodeURIComponent(document.cookie); //decode the cookie
-          var ca = decodedCookie.split(';'); // Split string by ';'
-          for (var i = 0; i < ca.length; i++) { // Split cookies by name
-            var c = ca[i];
-            while (c.charAt(0) == ' ') {
-              c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0) {
-              return c.substring(name.length, c.length);
-            }
-          }
-          return ""; // Returns cookie
-        };
-        /* Changes login buttons depending on if user is logged in or not; Coding reference from Rianne */
-        var username = getCookie('username'); // Gets user's username
-        console.log(username); // Write it in console
-        if (username != "") { // If user is logged in (username not undefined) login button will change to "logout <username>""
-          document.write(`<a href="./logout"><span class="glyphicon glyphicon-user"></span>Logout ${username}</a>`);
-        } else { // If the user is not logged in (username undefined) will display as login button
-          document.write(`<a href="./login"><span class="glyphicon glyphicon-user"></span>Login</a>`);
-        }
-      </script>
-    </ul>
+        </ul>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
 
-<!--Login form; Code reference from lab 14-->
-<div class="container">
-<form name="login_form" action="process_login" method="POST">
-    <h1>Login</h1>
-    <h3>Please log in to make a purchase!</h3>
-    <br>
-    <label for="username"><h4>Username</h4></label>
-    <input type="text" placeholder="Enter Username" title="Min: 4 characters, Max: 10 characters, Numbers and Letters only" name="username" id="username" required> 
-    <br>  
-    <label for="password"><h4>Password</h4></label>
-    <input type="password" placeholder="Enter Password" title="Min: 6 characters" name="password" id="password" required>
+  <!--Login form; Code reference from lab 14-->
+  <div class="container">
+    <form name="login_form" action="javascript:login_user();" method="GET">
+      <h1>Login</h1>
+      <h3>Please log in to make a purchase!</h3>
+      <br>
+      <label for="username">
+        <h4>Username</h4>
+      </label>
+      <input type="text" placeholder="Enter Username"
+        title="Min: 4 characters, Max: 10 characters, Numbers and Letters only" name="username" id="username" required>
+        <span id="username_message"></span>
+      <br>
+      <label for="password">
+        <h4>Password</h4>
+      </label>
+      <input type="password" placeholder="Enter Password" title="Min: 6 characters" name="password" id="password"
+        required>
+        <span id="password_message"></span>
   </div>
   <br>
   <div class="container">
     <button type="submit" class="button2">Login</button>
+    </form>
+  </div>
   </form>
-    </div>
-</form>
-<br>
-<br>
-<br>
-<br>
-      <!--Link to registration page-->
-      <div class="container">
-        <h2>New user?<a href="register.html"> Click here to create an account!</a></h2>
-      </div>
+  <br>
+  <br>
+  <br>
+  <br>
+  <!--Link to registration page-->
+  <div class="container">
+    <h2>New user?<a href="register.html"> Click here to create an account!</a></h2>
+  </div>
 
-   <script>
+  <script>
     /* Saves the quantity data (query string) to be able to display on the invoice */
-   login_form.action += document.location.search;
-   </script>
+    login_form.action += document.location.search;
+  </script>
 
-<!--Footer-->
-<footer>
-  <b><p>Jewels By Kim LLC</p></b>
-</footer>
+  <!--Footer-->
+  <footer>
+    <b>
+      <p>Jewels By Kim LLC</p>
+    </b>
+  </footer>
+
+  <script>
+    /* Create cookie that records time; From w3 schools -  https://www.w3schools.com/js/tryit.asp?filename=tryjs_cookie_username*/
+    function setCookie(cname, cvalue, exdays) { // Sets cookie
+      var d = new Date(); // Provides today's date
+      d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000)); // Cookie will expire a day after they login
+      var expires = "expires=" + d.toUTCString(); // Place into string
+      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/"; // Place in local cookie
+    }
+
+    /* Function to clear/delete cookies; From stackoverflow - https://stackoverflow.com/questions/179355/clearing-all-cookies-with-javascript/179408#179408 */
+    function deleteAllCookies() {
+      var cookies = document.cookie.split(";"); // Split cookies using ;
+      for (var i = 0; i < cookies.length; i++) { // 
+        var cookie = cookies[i];
+        var oldCookie = cookie.indexOf("="); // Sets oldCookie to the previous cookies
+        var name = oldCookie > -1 ? cookie.substr(0, oldCookie) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT"; // Will ouput that cookie has already expired in 1970
+      }
+    }
+
+    /* Function to allow user to go back pages; Coding reference from stockoverflow - https://stackoverflow.com/questions/25639290/windows-history-back-location-reload-jquery/35547598 */
+    function GoBackWithRefresh(event) { //function to go to previous page
+      var past = document.referrer; // Sets variable past as the document.referrer which is the previous page to your current page
+      var pastPage = past.split('/').pop(); // In the past page's query string, whatever is after '/' set that to the variable of pastPage
+      if (pastPage != 'login.html' && pastPage != 'register.html') { // If the previous page is not the login nor the registration, then go back to the previous page
+        window.location = past;
+      } else if (pastPage == 'login.html' && pastPage == 'register.html') { // If the previous page is the login or the registration, go back two pages (will skip going to the login and registration pages)
+        window.history.go(-2);
+      } else {
+        window.location.href = './index.html'; // Otherwise just redirect back to homepage
+      }
+    };
+
+    /* Function to login user; Coding reference from Alyssa */
+    function login_user() {
+      data = new URLSearchParams(new FormData(login_form)); //Set data as variable of the login_form string
+      fetch('/check_login', // Fetch data from the the app.post function in the server for check_login 
+        {
+          method: 'post',
+          body: data,
+          redirect: 'follow'
+        }
+      ).then(function (response) { // After data is retrieved from fetch, perform function
+        if (response.ok) { // If the response is ok, then turn the response errors into JSON objects
+          response.json().then(function (errors) {
+            if (Object.keys(errors).length == 0) { // If there are no errors, clear the session to allow new users to login
+              sessionStorage.clear(); 
+              response.json({});
+              var theDate = JSON.stringify(Date()); // Time is recorded in variable theDate
+              setCookie('last_login_time', JSON.parse(theDate), 'username'); // Cookie will record login time
+              response.redirect(GoBackWithRefresh()); // Redirects to previous page using GoBackWithRefresh from above
+            } else {
+              for (errorId in errors) { // If there are errors in the span ID messages, output those errors
+                document.getElementById(errorId + '_message').innerHTML = errors[errorId];
+              };
+            };
+          });
+        } else {
+          console.log('Network request for /check_login failed with response ' + response.status + ': ' + response.statusText); // Will output in console that the request was unsuccessful
+        }
+      });
+    }
+  </script>
 
 </body>
+
 </html>
