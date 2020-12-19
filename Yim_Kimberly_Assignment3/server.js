@@ -47,6 +47,14 @@ if (fs.existsSync(userdata_file)) { // checks if file exists before reading
     console.log("Sorry, we can't find" + userdata_file); // Message if the userdata does not exist
 }
 
+/* Processes login */
+app.get("/login", function (request, response) {
+        var login_username = request.body["username"]; // Set var login_username to the username 
+        if (typeof userdata[login_username] == 'undefined' || userdata[login_username] == '') { // If the username is defined
+        response.redirect('./login.html'); // Sends user back to homepage
+        }
+        });
+
 /* Processes login; Modified from our class's lab 14, Rick Kazman's Lab 14 example (ProcessLogin.js) & Lab 15 (Ex3.js), and Alyssa */
 app.post("/check_login", function (request, response) {
     errs = {}; // Assume there are no errors at first
@@ -80,21 +88,13 @@ app.post("/check_login", function (request, response) {
     };
 });
 
-/* Processes login */
-app.get("/login", function (request, response) {
-        var login_username = request.body["username"]; // Set var login_username to the username 
-        if (typeof userdata[login_username] == 'undefined' || userdata[login_username] == '') { // If the username is defined
-        response.redirect('./login.html'); // Sends user back to homepage
-        }
-        });
 
 /* Processes logout; Coding reference from Rianne */
 app.get("/logout", function (request, response) {
-    response.clearCookie('username'); // Clears cookie
+    response.clearCookie('username'); // Clears cookie 
     request.session.destroy(); // Destroys session
     response.redirect('./index.html'); // Sends user back to homepage
 });
-
 
 /* Processes registration; Ensures security since invoice is inaccessible from the URL and is sent directly to buyer's email; From our class's lab 14, Rick Kazman's Lab 14 example (ProcessLogin.js), Alyssa from ITM 352; Reference for patterns w3school <https://www.w3schools.com/tags/att_input_pattern.asp> */
 app.post("/register_user", function (request, response) {
@@ -187,7 +187,6 @@ function ValidateEmail(inputText) {
 
 /* Function to generate invoice; Coding reference from Alyssa & Rianne */
 app.post("/generateInvoice", function (request, response) {
-    var user_email = userdata[request.cookies.username].email; // setting variables
     cart = JSON.parse(request.query['cartData']); //this parses the cart 
     cookie = JSON.parse(request.query['cookieData']); //this parses the cookies 
     var theCookie = cookie.split(';');
@@ -363,7 +362,7 @@ app.post("/generateInvoice", function (request, response) {
     });
     var mailOptions = {
         from: 'kcyim@gmail.com', // Sends the invoice from my email
-        to: user_email, // Sends the email to the cookie from the account that was logged in
+        to: email, // Sends the email to the cookie from the account that was logged in
         subject: 'Invoice',
         html: str // Allows string to return to html
     };

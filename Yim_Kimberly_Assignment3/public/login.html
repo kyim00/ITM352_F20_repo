@@ -186,8 +186,7 @@
       ).then(function (response) { // After data is retrieved from fetch, perform function
         if (response.ok) { // If the response is ok, then turn the response errors into JSON objects
           response.json().then(function (errors) {
-            if (Object.keys(errors).length == 0) { // If there are no errors, clear the session to allow new users to login
-              sessionStorage.clear(); 
+            if (Object.keys(errors).length == 0) { // If there are no errors ..
               response.json({});
               var theDate = JSON.stringify(Date()); // Time is recorded in variable theDate
               setCookie('last_login_time', JSON.parse(theDate), 'username'); // Cookie will record login time
